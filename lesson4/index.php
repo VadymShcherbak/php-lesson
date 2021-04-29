@@ -406,7 +406,7 @@ va_todo_21( 10 );
 <?php
 function va_todo_22( $year ) {
 
-	if ( gettype( $year / 400 ) === integer || gettype( $year / 4 ) === integer && integer !== gettype( $year / 100 ) ) {
+	if ( gettype( $year / 400 ) === 'integer' || gettype( $year / 4 ) === 'integer' && 'integer' !== gettype( $year / 100 ) ) {
 		echo 'Високосный год <br>';
 	} else {
 		echo 'Не високосный <br>';
