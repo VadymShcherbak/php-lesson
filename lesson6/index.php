@@ -59,7 +59,8 @@ va_todo_4();
 
 <?php
 function va_todo_5() {
-	$arr = array( 4, 2, 5, 19, 13, 0, 10 );
+	$arr    = array( 4, 2, 5, 19, 13, 0, 10 );
+	$result = 0;
 
 	foreach ( $arr as $elem ) {
 		$result += pow( $elem, 2 );
