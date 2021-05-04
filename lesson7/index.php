@@ -482,3 +482,287 @@ function va_todo_35() {
 
 va_todo_35();
 ?>
+
+<h3>36. Дана строка '12345'. Сделайте из нее строку '54321'.</h3>
+
+<?php
+function va_todo_36() {
+	$str = '12345';
+	$r   = strrev( '12345' );
+
+	echo $r;
+}
+
+va_todo_36();
+?>
+
+<h3>37. Проверьте, является ли слово палиндромом (одинаково читается во всех направлениях, примеры таких слов: madam, otto, kayak, nun, level).</h3>
+
+<?php
+function va_todo_37() {
+	$str = 'level';
+
+	if ( strrev( $str ) === $str ) {
+		echo $str . ' - Слово является палиндромом';
+	} else {
+		echo 'Слово не является палиндромом';
+	}
+}
+
+va_todo_37();
+?>
+
+<h3>38. Дана строка. Перемешайте символы этой строки в случайном порядке.</h3>
+
+<?php
+function va_todo_38() {
+	$str = 'level';
+	$r   = str_shuffle( $str );
+
+	echo $r;
+}
+
+va_todo_38();
+?>
+
+<h3>39. Создайте строку из 6-ти случайных маленьких латинских букв так, чтобы буквы не повторялись. Нужно сделать так, чтобы в нашей строке могла быть любая латинская буква, а не ограниченный набор.</h3>
+
+<?php
+function va_todo_39() {
+	$str = 'qwertyuiopasdfghjklzxcvbnm';
+	$res = str_shuffle( substr( $str, 0, 6 ) );
+
+	echo $res;
+}
+
+va_todo_39();
+?>
+
+<h3>40. Дана строка '12345678'. Сделайте из нее строку '12 345 678'.</h3>
+
+<?php
+function va_todo_40() {
+	$str = '12345678';
+	$res = number_format( $str, 0, '.', ' ' );
+	echo $res;
+}
+
+va_todo_40();
+?>
+
+<h3>41. Нарисуйте пирамиду, как показано на рисунке, только у вашей пирамиды должно быть 9 рядов, а не 5. Решите задачу с помощью одного цикла и функции str_repeat.
+x<br>xx<br>xxx<br>xxxx<br>xxxxx<br></h3>
+
+<?php
+function va_todo_41() {
+	$str = 'x';
+	$row = 9;
+
+	for ( $i = 1; $i <= $row; $i++ ) {
+		echo str_repeat( $str, $i ) . '<br>';
+	}
+}
+
+va_todo_41();
+?>
+
+<h3>42. Нарисуйте пирамиду, как показано на рисунке. Решите задачу с помощью одного цикла и функции str_repeat.</h3>
+
+<?php
+function va_todo_42() {
+	$row = 9;
+
+	for ( $i = 1; $i <= $row; $i++ ) {
+		echo str_repeat( $i, $i ) . '<br>';
+	}
+}
+
+va_todo_42();
+?>
+
+
+<h3>43. Дана строка 'html, <b>php</b>, js'. Удалите теги из этой строки.</h3>
+
+<?php
+function va_todo_43() {
+	$str = 'html, <b>php</b>, js';
+	$res = strip_tags( $str );
+
+	echo $res;
+}
+
+va_todo_43();
+?>
+
+<h3>44.Дана строка $str. Удалите все теги из этой строки, кроме тегов </b> и </i>.</h3>
+
+<?php
+function va_todo_44() {
+	$str = 'html, <b>php</b>, <i>js</i>';
+	$res = strip_tags( $str, '<b><i>' );
+
+	echo $res;
+}
+
+va_todo_44();
+?>
+
+<h3>45. Дана строка 'html, <b>php</b>, js'. Выведите ее на экран 'как есть': то есть браузер не должен преобразовать </b> в жирный.</h3>
+
+<?php
+function va_todo_45() {
+	$str = 'html, <b>php</b>, js';
+
+	echo htmlspecialchars( $str );
+}
+
+va_todo_45();
+?>
+
+<h3>46. Узнайте код символов 'a', 'b', 'c', пробела.</h3>
+
+<?php
+function va_todo_46() {
+
+	echo ord( 'a' ) . '<br>';
+	echo ord( 'b' ) . '<br>';
+	echo ord( 'c' ) . '<br>';
+	echo ord( ' ' ) . '<br>';
+}
+
+va_todo_46();
+?>
+
+<h3>47. Изучите таблицу ASCII. Определите границы, в которых располагаются буквы английского алфавита.</h3>
+
+<?php
+function va_todo_47() {
+
+	echo ord( 'A' ) . ' - ' . ord( 'Z' ) . ' Большие букви<br>';
+	echo ord( 'a' ) . ' - ' . ord( 'z' ) . ' Малинькие букви';
+}
+
+va_todo_47();
+?>
+
+<h3>48. Выведите на экран символ с кодом 33.</h3>
+
+<?php
+function va_todo_48() {
+
+	echo chr( '33' );
+}
+
+va_todo_48();
+?>
+
+<h3>49.Запишите в переменную $str случайный символ - большую букву латинского алфавита. Подсказка: с помощью таблицы ASCII определите какие целые числа соответствуют большим буквам латинского алфавита.</h3>
+
+<?php
+function va_todo_49() {
+	$str = chr( mt_rand( 65, 90 ) );
+
+	echo $str;
+}
+
+va_todo_49();
+?>
+
+<h3>50.Запишите в переменную $str случайную строку $len длиной, состоящую из маленьких букв латинского алфавита. Подсказка: воспользуйтесь циклом for или while.</h3>
+
+<?php
+function va_todo_50() {
+	$str = '';
+	$len = 8;
+
+	for ( $i = 1; $i <= $len; $i++ ) {
+		$str .= chr( mt_rand( 97, 122 ) );
+	}
+
+	echo $str;
+}
+
+va_todo_50();
+?>
+
+<h3>51.Дана буква английского алфавита. Узнайте, она маленькая или большая.</h3>
+
+<?php
+function va_todo_51() {
+	$lett = 'k';
+
+	if ( ord( $lett ) >= 65 && ord( $lett ) <= 90 ) {
+		echo $arr . ' большая буква';
+	} elseif ( ord( $lett ) >= 97 && ord( $lett ) <= 122 ) {
+		echo $lett . ' маленькая буква';
+	}
+}
+
+va_todo_51();
+?>
+
+<h3>52. Дана строка 'ab-cd-ef'. С помощью функции strchr выведите на экран строку '-cd-ef'.</h3>
+
+<?php
+function va_todo_52() {
+	$str = 'ab-cd-ef';
+
+	echo strchr( $str, '-' );
+}
+
+va_todo_52();
+?>
+
+<h3>53. Дана строка 'ab-cd-ef'. С помощью функции strrchr выведите на экран строку '-ef'.</h3>
+
+<?php
+function va_todo_53() {
+	$str = 'ab-cd-ef';
+
+	echo strrchr( $str, '-' );
+}
+
+va_todo_53();
+?>
+
+<h3>54.Дана строка 'ab--cd--ef'. С помощью функции strstr выведите на экран строку '--cd--ef'.</h3>
+
+<?php
+function va_todo_54() {
+	$str = 'ab--cd--ef';
+
+	echo strstr( $str, '--' );
+}
+
+va_todo_54();
+?>
+
+<h3>55.Преобразуйте строку 'var_test_text' в 'varTestText'. Скрипт, конечно же, должен работать с любыми аналогичными строками.</h3>
+
+<?php
+function va_todo_55() {
+	$str  = 'var_test_text';
+	$str2 = str_replace( '_', ' ', $str );
+	$str3 = ucwords( $str2 );
+
+	echo lcfirst( str_replace( ' ', '', $str3 ) );
+}
+
+va_todo_55();
+?>
+
+<h3>56. Дан массив с числами. Выведите на экран все числа, в которых есть цифра 3.</h3>
+
+<?php
+function va_todo_56() {
+	$arr = array( 1, 3, 23, 4, 13, 85, 73 );
+
+	foreach ( $arr as $value ) {
+		if ( strpos( $value, '3' ) !== false ) {
+			echo $value . '<br>';
+		}
+	}
+}
+
+va_todo_56();
+?>
