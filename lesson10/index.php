@@ -82,7 +82,7 @@ function va_todo_3() {
 	if ( ! empty( $_GET['age_3'] ) ) {
 		$age = htmlspecialchars( trim( $_GET['age_3'] ) );
 
-		echo 'Ввааш возраст: ' . $age . ' лет';
+		echo 'Вааш возраст: ' . $age . ' года';
 	}
 }
 
@@ -112,7 +112,7 @@ function va_todo_4() {
 		$formpass  = esc_html( $_GET['pass'] );
 
 		if ( $login === $formlogin && $pass === $formpass ) {
-			echo 'Доступ разрешон';
+			echo 'Доступ разрешен';
 		} else {
 			echo 'Доступ запрещён';
 		}
@@ -120,4 +120,71 @@ function va_todo_4() {
 }
 
 va_todo_4();
+?>
+
+<h3>5. Спросите имя пользователя с помощью формы. Результат запишите в переменную $name. Сделайте так, чтобы после отправки формы значения ее полей не пропадали.</h3>
+
+<form action="" method="GET">
+	<input type="text" name="name_5" value="
+<?php
+if ( ! empty( $_GET['name_5'] ) ) {
+	echo $_GET['name_5'];}
+?>
+">
+	<input type="submit" name="submit">
+</form>
+
+<?php
+/**
+ * Va_todo_5
+ *
+ * @return void
+ */
+function va_todo_5() {
+
+	if ( ! empty( $_GET['name_5'] ) ) {
+		$name = esc_html( trim( $_GET['name_5'] ) );
+
+		echo $name;
+	}
+}
+
+va_todo_5();
+?>
+
+<h3>6. Спросите у пользователя имя, а также попросите его ввести сообщение (textarea). Сделайте так, чтобы после отправки формы значения его полей не пропадали.</h3>
+
+<form action="" method="GET">
+	<input type="text" name="name_6" value="
+<?php
+if ( ! empty( $_GET['name_6'] ) ) {
+	echo $_GET['name_6'];}
+?>
+">
+	<textarea name="text_6" value="
+<?php
+if ( ! empty( $_GET['text_6'] ) ) {
+	echo $_GET['text_6'];}
+?>
+"></textarea>
+	<input type="submit" name="submit">
+</form>
+
+<?php
+/**
+ * Va_todo_6
+ *
+ * @return void
+ */
+function va_todo_6() {
+
+	if ( ! empty( $_GET['name_6'] ) ) {
+		$name = esc_html( trim( $_GET['name_6'] ) );
+		$text = esc_html( trim( $_GET['text_6'] ) );
+
+		echo $name . ':' . $text;
+	}
+}
+
+va_todo_6();
 ?>
