@@ -125,12 +125,7 @@ va_todo_4();
 <h3>5. Спросите имя пользователя с помощью формы. Результат запишите в переменную $name. Сделайте так, чтобы после отправки формы значения ее полей не пропадали.</h3>
 
 <form action="" method="GET">
-	<input type="text" name="name_5" value="
-<?php
-if ( ! empty( $_GET['name_5'] ) ) {
-	echo $_GET['name_5'];}
-?>
-">
+	<input type="text" name="name_5" value="<?php echo ! empty( $_GET['name_5'] ) ? $_GET['name_5'] : ''; ?>">
 	<input type="submit" name="submit">
 </form>
 
@@ -155,18 +150,8 @@ va_todo_5();
 <h3>6. Спросите у пользователя имя, а также попросите его ввести сообщение (textarea). Сделайте так, чтобы после отправки формы значения его полей не пропадали.</h3>
 
 <form action="" method="GET">
-	<input type="text" name="name_6" value="
-<?php
-if ( ! empty( $_GET['name_6'] ) ) {
-	echo $_GET['name_6'];}
-?>
-">
-	<textarea name="text_6" value="
-<?php
-if ( ! empty( $_GET['text_6'] ) ) {
-	echo $_GET['text_6'];}
-?>
-"></textarea>
+	<input type="text" name="name_6" value="<?php echo ! empty( $_GET['name_6'] ) ? $_GET['name_6'] : ''; ?>">
+	<textarea name="text_6" value="<?php echo ! empty( $_GET['text_6'] ) ? $_GET['text_6'] : ''; ?>"></textarea>
 	<input type="submit" name="submit">
 </form>
 

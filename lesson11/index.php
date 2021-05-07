@@ -286,8 +286,6 @@ va_todo_14();
 <?php
 /**
  * Va_todo_15
- *
- * @return void
  */
 function va_todo_15() {
 	$date1 = esc_html( $_GET['date_15'] );
@@ -307,7 +305,7 @@ va_todo_15();
 
 <form action="" method="GET">
 	<input type="text" name="date_16" placeholder="2025-12-31">
-	<input type="submit" name="submit">
+	<input type="submit" name="submit_16">
 </form>
 
 <?php
@@ -317,13 +315,140 @@ va_todo_15();
  * @return void
  */
 function va_todo_16() {
+	if ( ! isset( $_GET['submit_16'] ) ) {
+		return;
+	}
 
 	if ( ! empty( $_GET['date_16'] ) ) {
 		$date = esc_html( $_GET['date_16'] );
 
-		echo date( 'd-n-Y', strtotime( $date ) );
+		echo date( 'd-m-Y', strtotime( $date ) );
 	}
 }
 
 va_todo_16();
+?>
+
+<h3>17.Сделайте форму, которая спрашивает дату-время в формате '2025-12-31T12:13:59'. С помощью функции strtotime и функции date преобразуйте ее в формат '12:13:59 31.12.2025'.</h3>
+
+<form action="" method="GET">
+	<input type="text" name="date_17" placeholder="2025-12-31 12:13:59">
+	<input type="submit" name="submit_17">
+</form>
+
+<?php
+/**
+ * Va_todo_17
+ *
+ * @return void
+ */
+function va_todo_17() {
+	if ( ! isset( $_GET['submit_17'] ) ) {
+		return;
+	}
+
+	$date = esc_html( $_GET['date_17'] );
+
+	echo date( 'h:i:s d.m.Y', strtotime( $date ) );
+}
+
+va_todo_17();
+?>
+
+<h3>18. В переменной $date лежит дата в формате '2025-12-31'. Прибавьте к этой дате 2 дня, 1 месяц и 3 дня, 1 год. Отнимите от этой даты 3 дня.</h3>
+
+<?php
+/**
+ * Va_todo_18
+ */
+function va_todo_18() {
+	$date = '2025-12-31';
+
+	$date2 = date_create( $date );
+	date_modify( $date2, '2 days' );
+	echo date_format( $date2, 'd:m:Y' ) . '<br>';
+
+	date_modify( $date2, '1 month 3 days' );
+	echo date_format( $date2, 'd:m:Y' ) . '<br>';
+
+	date_modify( $date2, '1 year' );
+	echo date_format( $date2, 'd:m:Y' ) . '<br>';
+
+	date_modify( $date2, '-3 days' );
+	echo date_format( $date2, 'd:m:Y' ) . '<br>';
+}
+
+va_todo_18();
+?>
+
+<h3>19. Узнайте сколько дней осталось до Нового Года. Скрипт должен работать в любом году.</h3>
+
+<?php
+/**
+ * Va_todo_19
+ */
+function va_todo_19() {
+	echo date( 'L' ) ? 366 - date( 'z' ) : 365 - date( 'z' );
+}
+
+va_todo_19();
+?>
+
+<h3>20. Сделайте форму с одним полем ввода, в которое пользователь вводит год. Найдите все пятницы 13-е в этом году. Результат выведите в виде массива дат.</h3>
+
+<form action="" method="GET">
+	<input type="text" name="date_20" placeholder="2025">
+	<input type="submit" name="submit_20">
+</form>
+
+<?php
+/**
+ * Va_todo_20
+ *
+ * @return void
+ */
+function va_todo_20() {
+	if ( ! isset( $_GET['submit_20'] ) ) {
+		return;
+	}
+
+	if ( ! empty( $_GET['date_20'] ) && is_numeric( $_GET['date_20'] ) ) {
+		$year   = esc_html( $_GET['date_20'] );
+		$friday = array();
+
+		for ( $month = 1; $month <= 12; $month++ ) {
+			$month_days = date( 't', mktime( 0, 0, 0, $month, 1, $year ) );
+
+			for ( $day = 1; $day <= $month_days; $day++ ) {
+				$this_date = mktime( 0, 0, 0, $month, $day, $year );
+
+				if ( '13' === date( 'j', $this_date ) && '5' === date( 'w', $this_date ) ) {
+					$friday[] = date( 'd.m.Y', $this_date );
+				}
+			}
+		}
+
+		ar( $friday );
+	}
+}
+
+va_todo_20();
+?>
+
+<h3>21. Узнайте какой день недели был 100 дней назад.</h3>
+
+<?php
+/**
+ * Va_todo_21
+ */
+function va_todo_21() {
+	$week = array( 'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота' );
+	$date = date_create( date( 'Y-m-d' ) );
+
+	date_modify( $date, '-100 day' );
+
+	echo $week[ date( 'w', strtotime( date_format( $date, 'd.m.Y' ) ) ) ];
+}
+
+va_todo_21();
 ?>
