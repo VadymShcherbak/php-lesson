@@ -93,7 +93,6 @@ va_todo_5();
  * @return void
  */
 function va_todo_6() {
-
 	echo date( 'Y-m-d h:i:s' );
 }
 
@@ -109,7 +108,6 @@ va_todo_6();
  * @return void
  */
 function va_todo_7() {
-
 	echo date( 'Y-m-d' ) . '<br>';
 	echo date( 'd.m.Y' ) . '<br>';
 	echo date( 'd.m.y' ) . '<br>';
