@@ -77,7 +77,7 @@ function va_todo_4() {
 		?>
 		<form action="" method="GET">
 			<input type="date" name="b_day" id="">
-			<input type="submit">
+			<input type="submit" name="birth_btn">
 		</form>
 		<?php
 
@@ -85,8 +85,7 @@ function va_todo_4() {
 			setcookie( 'b_day_user', esc_html( $_GET['b_day'] ) );
 		}
 	} else {
-		$arr  = explode( '-', $_COOKIE['b_day_user'] );
-		$days = round( strtotime( $arr[2] . '-' . $arr[1] . '-' . date( 'Y' ) ) - strtotime( date( 'd-m-Y' ) ) );
+		$days = round( strtotime( $_COOKIE['b_day_user'] ) - strtotime( date( 'd-m-Y' ) ) );
 		$days = intval( $days / ( 3600 * 24 ) );
 
 		if ( 0 === $days ) {

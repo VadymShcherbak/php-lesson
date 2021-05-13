@@ -1,6 +1,5 @@
 <?php
 session_start();
-ob_start();
 ?>
 
 <?php
@@ -150,6 +149,5 @@ va_todo_6();
 	<input type="text" placeholder="Surname"><br><br>
 	<input type="password" placeholder="Password"><br><br>
 	<input type="email" placeholder="Email" value="<?php echo $_SESSION['email_t']; ?>"><br><br>
-	<input type="submit"><br>
 </form>
 
