@@ -1,3 +1,16 @@
+<?php
+/**
+ * PHP lesson
+ *
+ * @package ToDo
+ */
+
+require 'php/functions.php';
+
+va_add_task();
+va_del_task();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +27,18 @@
 <body>
 	<div class="main-section">
 		<div class="container">
-			<div class="wrapper row">
-				<div class="col-lg-6 offset-lg-3">
-					<form action="" method="post">
-						<input type="text" class="form-control" name="" id="">
-						<button type="submit" class="btn btn-primary">Add task</button>
+			<div class="wrapper row justify-content-center">
+				<div class="col-lg-8">
+					<form action="" method="post" class="mb-3">
+						<div class="input-group">
+							<input type="text" class="form-control col-9" name="n_task" id="">
+							<input type="date" class="form-control col-3" name="t_date" id="">
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-primary" name="add_task">Add Task</button>
+							</div>
+						</div>
 					</form>
+					<?php va_get_task(); ?>
 				</div>
 			</div>
 		</div>

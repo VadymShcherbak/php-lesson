@@ -6,18 +6,29 @@ body {
 }
 
 .main-section {
-	height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-form {
+.wrapper {
+	padding-top: 150px;
+}
+
+form,
+.task-wrapper {
 	background-color: lavender;
 	padding: 15px;
 	border-radius: 10px;}
 }
 
-input[type='text'] {
-	margin-bottom: 10px;
+.form-btn {
+	display: flex;
+	justify-content: space-between;
+}
+
+.task-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
