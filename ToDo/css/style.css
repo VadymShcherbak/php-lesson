@@ -32,3 +32,11 @@ form,
 	justify-content: space-between;
 	align-items: center;
 }
+
+.edit-wrapper {
+	display: none;
+}
+
+.wrapper-on {
+	display: block;
+}

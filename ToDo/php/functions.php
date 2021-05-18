@@ -77,23 +77,7 @@ function va_get_task() {
 
 	$res = $pdo->prepare( 'SELECT * FROM `task`' );
 	$res->execute();
-	$t_arr = $res->fetchAll( PDO::FETCH_ASSOC );
-
-	foreach ( $t_arr as $value ) :
-		?>
-		<div class="task-wrapper mb-3">
-			<div class="task-add">
-				<h4><?php echo $value['name']; ?></h4>
-				<h6><?php echo date_format( date_create( $value['date'] ), 'd.m.Y' ); ?></h6>
-			</div>
-			<div class="btn-group" role="group" aria-label="Basic mixed styles example">
-				<a href="?delete=<?php echo $value['id']; ?>" class="btn btn-danger"><i class="text-white far fa-trash-alt"></i></a>
-				<a href="?edit=<?php echo $value['id']; ?>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-				<a href="?id=<?php echo $value['id']; ?>" class="btn btn-success"><i class="text-white fas fa-check"></i></a>
-			</div>
-		</div>
-		<?php
-	endforeach;
+	return $res->fetchAll( PDO::FETCH_ASSOC );
 }
 
 /**
@@ -119,7 +103,7 @@ function va_del_task() {
 /**
  * Edit task.
  */
-function va_edit_task() {
+function va_edit_task( $param ) {
 	if ( ! isset( $_GET['edit'] ) ) {
 		return;
 	}
@@ -130,7 +114,51 @@ function va_edit_task() {
 	$t_value = '';
 
 	$res = $pdo->prepare( 'SELECT * FROM `task` WHERE id = :id' );
+
 	$res->bindParam( ':id', $id );
 	$res->execute();
+	$task_arr = $res->fetchAll( PDO::FETCH_ASSOC );
+
+	foreach ( $task_arr as $value ) {
+		$e_id   = $value['id'];
+		$e_text = $value['name'];
+		$e_date = $value['date'];
+	}
+
+	if ( 'e_id' === $param ) {
+		return $e_id;
+	} elseif ( 'e_text' === $param ) {
+		return $e_text;
+	} elseif ( 'e_date' === $param ) {
+		return $e_date;
+	}
+}
+
+/**
+ * Save edit.
+ *
+ * @return void
+ */
+function va_save_edit() {
+	if ( ! isset( $_POST['save_edit'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	$e_id   = esc_html( $_POST['edit_id'] );
+	$e_text = esc_html( $_POST['edit_text'] );
+	$e_date = esc_html( $_POST['edit_date'] );
+
+	$res = $pdo->prepare( 'UPDATE `task` SET name = :task, date = :date WHERE id = :id' );
+
+	$res->bindParam( ':id', $e_id );
+	$res->bindParam( ':task', $e_text );
+	$res->bindParam( ':date', $e_date );
+
+	$res->execute();
+
+	header( 'Location: index.php' );
+	die();
 }
 
