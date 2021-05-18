@@ -10,12 +10,57 @@ require 'helper.php';
 $pdo = new PDO( 'mysql:host=192.168.1.133;dbname=todo;', 'vadym', 'vadym' );
 
 /**
+ * Check add task
+ *
+ * @return void
+ */
+function va_check_add_task() {
+	if ( ! isset( $_POST['add_task'] ) ) {
+		return;
+	}
+
+	if ( empty( $_POST['n_task'] ) && empty( $_POST['t_date'] ) ) {
+		?>
+
+		<div class="alert alert-danger mt-3" role="alert">
+			Введите задание и дату!
+		</div>
+
+		<?php
+	} elseif ( empty( $_POST['n_task'] ) ) {
+		?>
+
+			<div class="alert alert-danger mt-3" role="alert">
+				Введите задание!
+			</div>
+
+		<?php
+	} elseif ( empty( $_POST['t_date'] ) ) {
+		?>
+
+			<div class="alert alert-danger mt-3" role="alert">
+				Введите дату!
+			</div>
+
+		<?php
+	} elseif ( time() >= strtotime( $_POST['t_date'] ) ) {
+		?>
+
+		<div class="alert alert-danger mt-3" role="alert">
+			Дедлайн должен быть в будущем!
+		</div>
+
+		<?php
+	}
+}
+
+/**
  * Va_add_task
  *
  * @return void
  */
 function va_add_task() {
-	if ( ! isset( $_POST['add_task'] ) ) {
+	if ( ! isset( $_POST['add_task'] ) || empty( $_POST['n_task'] ) || empty( $_POST['t_date'] ) || time() >= strtotime( $_POST['t_date'] ) ) {
 		return;
 	}
 
@@ -94,5 +139,25 @@ function va_del_task() {
 
 		header( 'Location: index.php' );
 		die();
+}
+
+/**
+ * Edit task
+ *
+ * @return void
+ */
+function va_edit_task() {
+	if ( ! isset( $_GET['edit'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	$id      = esc_html( $_GET['edit'] );
+	$t_value = '';
+
+	$res = $pdo->prepare( 'SELECT * FROM `task` WHERE id = :id' );
+	$res->bindParam( ':id', $id );
+	$res->execute();
 }
 

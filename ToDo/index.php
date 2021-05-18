@@ -27,6 +27,7 @@ va_del_task();
 <body>
 	<div class="main-section">
 		<div class="container">
+		<?php echo va_check_add_task(); ?>
 			<div class="wrapper row justify-content-center">
 				<div class="col-lg-8">
 					<form action="" method="post" class="mb-3">
