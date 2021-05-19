@@ -31,12 +31,12 @@ $get_arr_task = va_get_task();
 <body>
 	<div class="main-section">
 		<div class="container">
-		<?php
-		va_print_notice( 'error' );
-		va_print_notice( 'success' );
-		?>
+			<?php
+			va_print_notice( 'error' );
+			va_print_notice( 'success' );
+			?>
 			<div class="wrapper row justify-content-center">
-				<div class="col-lg-8">
+				<div class="col-lg-8 z-ind">
 					<form action="" method="post" class="mb-3">
 						<div class="input-group">
 							<input type="text" class="form-control col-9" name="n_task" placeholder="Enter your task" aria-label="Enter your task">
@@ -46,23 +46,25 @@ $get_arr_task = va_get_task();
 							</div>
 						</div>
 					</form>
-					<?php
-					foreach ( $get_arr_task as $value ) :
-						?>
+					<?php foreach ( $get_arr_task as $value ) : ?>
 						<div class="task-wrapper mb-3">
 							<div class="task-add">
 								<h4 <?php echo '1' === $value['done'] ? 'class="task-done"' : ''; ?> ><?php echo $value['name']; ?></h4>
 								<h6><?php echo date_format( date_create( $value['date'] ), 'd.m.Y' ); ?></h6>
 							</div>
 							<div class="btn-group" role="group" aria-label="Basic mixed styles example">
-								<a href="?delete=<?php echo $value['id']; ?>" class="btn btn-danger"><i class="text-white far fa-trash-alt"></i></a>
-								<a href="?edit=<?php echo $value['id']; ?>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-								<a href="?id=<?php echo $value['id']; ?>&checked=<?php echo $value['done']; ?>" class="btn btn-success"><i class="text-white fas fa-check"></i></a>
+								<a href="?delete=<?php echo $value['id']; ?>" class="btn btn-danger">
+									<i class="text-white far fa-trash-alt"></i>
+								</a>
+								<a href="?edit=<?php echo $value['id']; ?>" class="btn btn-warning">
+									<i class="fas fa-pencil-alt"></i>
+								</a>
+								<a href="?id=<?php echo $value['id']; ?>&checked=<?php echo $value['done']; ?>" class="btn btn-success">
+									<i class="text-white fas fa-check"></i>
+								</a>
 							</div>
 						</div>
-						<?php
-						endforeach;
-					?>
+						<?php endforeach; ?>
 				</div>
 			</div>
 		</div>

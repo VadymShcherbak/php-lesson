@@ -13,6 +13,8 @@ $pdo = new PDO( 'mysql:host=192.168.1.133;dbname=todo;', 'vadym', 'vadym' );
  * Add task.
  */
 function va_add_task() {
+	global $pdo;
+
 	if ( ! isset( $_POST['add_task'] ) ) {
 		return;
 	}
@@ -32,8 +34,6 @@ function va_add_task() {
 		va_add_notice( 'error', 'Дедлайн должен быть в будущем!' );
 		return;
 	}
-
-	global $pdo;
 
 	$done = 0;
 
@@ -68,9 +68,12 @@ function va_get_task() {
  * Delete task.
  */
 function va_del_task() {
+	global $pdo;
+
 	if ( ! isset( $_GET['delete'] ) ) {
 		return;
 	}
+
 	$del = esc_html( $_GET['delete'] );
 
 	if ( va_check_task( $del ) === 0 ) {
@@ -79,12 +82,8 @@ function va_del_task() {
 		die();
 	}
 
-	global $pdo;
-
 	$res = $pdo->prepare( 'DELETE FROM `task` WHERE id = :del' );
 	$res->bindParam( ':del', $del );
-
-	$res->execute();
 
 	if ( $res->execute() ) {
 		va_add_notice( 'success', 'Задание удалено' );
@@ -115,20 +114,19 @@ function va_check_task( $id ) {
 
 
 /**
- * Edit task
+ * Edit task.
  *
- * @param  mixed $param = type.
+ * @param  mixed $param Еype.
  * @return void
  */
 function va_edit_task( $param ) {
+	global $pdo;
+
 	if ( ! isset( $_GET['edit'] ) ) {
 		return;
 	}
 
-	global $pdo;
-
-	$id      = esc_html( $_GET['edit'] );
-	$t_value = '';
+	$id = esc_html( $_GET['edit'] );
 
 	if ( va_check_task( $id ) === 0 ) {
 		va_add_notice( 'error', 'Такого задания не существует' );
@@ -163,11 +161,11 @@ function va_edit_task( $param ) {
  * @return void
  */
 function va_save_edit() {
+	global $pdo;
+
 	if ( ! isset( $_POST['save_edit'] ) ) {
 		return;
 	}
-
-	global $pdo;
 
 	$e_id   = esc_html( $_POST['edit_id'] );
 	$e_text = esc_html( $_POST['edit_text'] );
@@ -178,8 +176,6 @@ function va_save_edit() {
 	$res->bindParam( ':id', $e_id );
 	$res->bindParam( ':task', $e_text );
 	$res->bindParam( ':date', $e_date );
-
-	$res->execute();
 
 	if ( $res->execute() ) {
 		va_add_notice( 'success', 'Задание успешно изменено' );
@@ -192,16 +188,16 @@ function va_save_edit() {
 }
 
 /**
- * Done task.
+ * Done Task.
  */
 function va_done_task() {
+	global $pdo;
+
 	if ( ! empty( $_GET['checked'] ) || '0' === $_GET['checked'] ) {
 		$id      = esc_html( $_GET['id'] );
 		$checked = esc_html( $_GET['checked'] );
 
 		$checked = $checked ? 0 : 1;
-
-		global $pdo;
 
 		if ( va_check_task( $id ) === 0 ) {
 			va_add_notice( 'error', 'Такого задания не существует' );

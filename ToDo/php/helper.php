@@ -62,3 +62,13 @@ function va_print_notice( $type ) {
 	}
 	unset( $_SESSION['notice'][ $type ] );
 }
+
+/**
+ * Header.
+ *
+ * @param  mixed $url Link.
+ */
+function va_header( $url ) {
+	header( 'Location: ' . $url );
+	die();
+}
