@@ -31,7 +31,10 @@ $get_arr_task = va_get_task();
 <body>
 	<div class="main-section">
 		<div class="container">
-		<?php echo va_check_add_task(); ?>
+		<?php
+		va_print_notice( 'error' );
+		va_print_notice( 'success' );
+		?>
 			<div class="wrapper row justify-content-center">
 				<div class="col-lg-8">
 					<form action="" method="post" class="mb-3">
@@ -60,21 +63,21 @@ $get_arr_task = va_get_task();
 						<?php
 						endforeach;
 					?>
-					<div class="edit-wrapper <?php echo isset( $_GET['edit'] ) ? 'wrapper-on' : ''; ?>">
-						<div class="edit-inner">
-							<form action="" method="post">
-								<div class="input-group">
-									<input type="hidden" name="edit_id" value="<?php echo va_edit_task( 'e_id' ); ?>">
-									<input type="text" class="form-control col-9" name="edit_text" placeholder="Edit task" aria-label="Edit task" value="<?php echo va_edit_task( 'e_text' ); ?>">
-									<input type="date" class="form-control col-3" name="edit_date" value="<?php echo va_edit_task( 'e_date' ); ?>">
-									<div class="input-group-append">
-										<button type="submit" class="btn btn-primary" name="save_edit">Save</button>
-									</div>
-								</div>
-							</form>
+				</div>
+			</div>
+		</div>
+		<div class="edit-wrapper <?php echo isset( $_GET['edit'] ) ? 'wrapper-on' : ''; ?>">
+			<div class="edit-inner">
+				<form action="" method="post">
+					<div class="input-group">
+						<input type="hidden" name="edit_id" value="<?php echo va_edit_task( 'e_id' ); ?>">
+						<input type="text" class="form-control col-9" name="edit_text" placeholder="Edit task" aria-label="Edit task" value="<?php echo va_edit_task( 'e_text' ); ?>">
+						<input type="date" class="form-control col-3" name="edit_date" value="<?php echo va_edit_task( 'e_date' ); ?>">
+						<div class="input-group-append">
+							<button type="submit" class="btn btn-primary" name="save_edit">Save</button>
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>

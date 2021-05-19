@@ -10,48 +10,32 @@ require 'helper.php';
 $pdo = new PDO( 'mysql:host=192.168.1.133;dbname=todo;', 'vadym', 'vadym' );
 
 /**
- * Check add task.
- */
-function va_check_add_task() {
-	if ( ! isset( $_POST['add_task'] ) ) {
-		return;
-	}
-	?>
-	<?php if ( empty( $_POST['n_task'] ) && empty( $_POST['t_date'] ) ) : ?>
-
-	<div class="alert alert-danger mt-3" role="alert">
-		Введите задание и дату!
-	</div>
-
-	<?php elseif ( empty( $_POST['n_task'] ) ) : ?>
-
-		<div class="alert alert-danger mt-3" role="alert">
-			Введите задание!
-		</div>
-
-	<?php elseif ( empty( $_POST['t_date'] ) ) : ?>
-
-		<div class="alert alert-danger mt-3" role="alert">
-			Введите дату!
-		</div>
-
-	<?php elseif ( time() >= strtotime( $_POST['t_date'] ) ) : ?>
-
-		<div class="alert alert-danger mt-3" role="alert">
-			Дедлайн должен быть в будущем!
-		</div>
-
-	<?php endif ?>
-	<?php
-}
-
-/**
  * Add task.
  */
 function va_add_task() {
-	if ( ! isset( $_POST['add_task'] ) || empty( $_POST['n_task'] ) || empty( $_POST['t_date'] ) || time() >= strtotime( $_POST['t_date'] ) ) {
+	if ( ! isset( $_POST['add_task'] ) ) {
 		return;
 	}
+	if ( empty( $_POST['n_task'] ) && empty( $_POST['t_date'] ) ) {
+		va_add_notice( 'error', 'Введите задание и дату!' );
+		return;
+
+	} elseif ( empty( $_POST['n_task'] ) ) {
+		va_add_notice( 'error', 'Введите задание!' );
+		return;
+
+	} elseif ( empty( $_POST['t_date'] ) ) {
+		va_add_notice( 'error', 'Введите дату!' );
+		return;
+
+	} elseif ( time() >= strtotime( $_POST['t_date'] ) ) {
+		va_add_notice( 'error', 'Дедлайн должен быть в будущем!' );
+		return;
+	}
+
+	// if ( empty( $_POST['n_task'] ) || empty( $_POST['t_date'] ) || time() >= strtotime( $_POST['t_date'] ) ) {
+	// 	return;
+	// }
 
 	global $pdo;
 
@@ -63,7 +47,11 @@ function va_add_task() {
 	$add_task->bindParam( ':date', esc_html( $_POST['t_date'] ) );
 	$add_task->bindParam( ':done', $done );
 
-	$add_task->execute();
+	if ( $add_task->execute() ) {
+		va_add_notice( 'success', 'Задание успешно добавлено' );
+	} else {
+		va_add_notice( 'error', 'Задание не добавлено' );
+	}
 
 	header( 'Location: index.php' );
 	die();
@@ -75,7 +63,7 @@ function va_add_task() {
 function va_get_task() {
 	global $pdo;
 
-	$res = $pdo->prepare( 'SELECT * FROM `task`' );
+	$res = $pdo->prepare( 'SELECT * FROM `task` ORDER BY id DESC' );
 	$res->execute();
 	return $res->fetchAll( PDO::FETCH_ASSOC );
 }
@@ -96,12 +84,22 @@ function va_del_task() {
 
 	$res->execute();
 
+	if ( $res->execute() ) {
+		va_add_notice( 'success', 'Задание удалено' );
+	} else {
+		va_add_notice( 'error', 'Задание не удалено' );
+	}
+
 	header( 'Location: index.php' );
 	die();
 }
 
+
 /**
- * Edit task.
+ * Edit task
+ *
+ * @param  mixed $param = type.
+ * @return void
  */
 function va_edit_task( $param ) {
 	if ( ! isset( $_GET['edit'] ) ) {
@@ -157,6 +155,12 @@ function va_save_edit() {
 	$res->bindParam( ':date', $e_date );
 
 	$res->execute();
+
+	if ( $res->execute() ) {
+		va_add_notice( 'success', 'Задание успешно изменено' );
+	} else {
+		va_add_notice( 'error', 'Задание не изменено' );
+	}
 
 	header( 'Location: index.php' );
 	die();
