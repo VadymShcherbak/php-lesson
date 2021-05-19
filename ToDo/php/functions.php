@@ -33,10 +33,6 @@ function va_add_task() {
 		return;
 	}
 
-	// if ( empty( $_POST['n_task'] ) || empty( $_POST['t_date'] ) || time() >= strtotime( $_POST['t_date'] ) ) {
-	// 	return;
-	// }
-
 	global $pdo;
 
 	$done = 0;
@@ -58,7 +54,7 @@ function va_add_task() {
 }
 
 /**
- * Get_task.
+ * Get task.
  */
 function va_get_task() {
 	global $pdo;
@@ -75,10 +71,16 @@ function va_del_task() {
 	if ( ! isset( $_GET['delete'] ) ) {
 		return;
 	}
+	$del = esc_html( $_GET['delete'] );
+
+	if ( va_check_task( $del ) === 0 ) {
+		va_add_notice( 'error', 'Такого задания не существует' );
+		header( 'Location: index.php' );
+		die();
+	}
 
 	global $pdo;
 
-	$del = esc_html( $_GET['delete'] );
 	$res = $pdo->prepare( 'DELETE FROM `task` WHERE id = :del' );
 	$res->bindParam( ':del', $del );
 
@@ -92,6 +94,23 @@ function va_del_task() {
 
 	header( 'Location: index.php' );
 	die();
+}
+
+/**
+ * Сheck task.
+ *
+ * @param  mixed $id = id.
+ * @return boolean
+ */
+function va_check_task( $id ) {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `task` WHERE id = :id' );
+	$res->bindParam( ':id', $id );
+
+	$res->execute();
+
+	return $res->rowCount();
 }
 
 
@@ -110,6 +129,12 @@ function va_edit_task( $param ) {
 
 	$id      = esc_html( $_GET['edit'] );
 	$t_value = '';
+
+	if ( va_check_task( $id ) === 0 ) {
+		va_add_notice( 'error', 'Такого задания не существует' );
+		header( 'Location: index.php' );
+		die();
+	}
 
 	$res = $pdo->prepare( 'SELECT * FROM `task` WHERE id = :id' );
 
@@ -177,6 +202,12 @@ function va_done_task() {
 		$checked = $checked ? 0 : 1;
 
 		global $pdo;
+
+		if ( va_check_task( $id ) === 0 ) {
+			va_add_notice( 'error', 'Такого задания не существует' );
+			header( 'Location: index.php' );
+			die();
+		}
 
 		$res = $pdo->prepare( 'UPDATE `task` SET done = :checked WHERE id = :id' );
 

@@ -67,6 +67,7 @@ $get_arr_task = va_get_task();
 			</div>
 		</div>
 		<div class="edit-wrapper <?php echo isset( $_GET['edit'] ) ? 'wrapper-on' : ''; ?>">
+			<a href="index.php" class="close-edit"></a>
 			<div class="edit-inner">
 				<form action="" method="post">
 					<div class="input-group">
