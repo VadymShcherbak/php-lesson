@@ -10,6 +10,7 @@ require 'php/functions.php';
 va_add_task();
 va_save_edit();
 va_del_task();
+va_done_task();
 
 $get_arr_task = va_get_task();
 ?>
@@ -47,13 +48,13 @@ $get_arr_task = va_get_task();
 						?>
 						<div class="task-wrapper mb-3">
 							<div class="task-add">
-								<h4><?php echo $value['name']; ?></h4>
+								<h4 <?php echo '1' === $value['done'] ? 'class="task-done"' : ''; ?> ><?php echo $value['name']; ?></h4>
 								<h6><?php echo date_format( date_create( $value['date'] ), 'd.m.Y' ); ?></h6>
 							</div>
 							<div class="btn-group" role="group" aria-label="Basic mixed styles example">
 								<a href="?delete=<?php echo $value['id']; ?>" class="btn btn-danger"><i class="text-white far fa-trash-alt"></i></a>
 								<a href="?edit=<?php echo $value['id']; ?>" class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-								<a href="?id=<?php echo $value['id']; ?>" class="btn btn-success"><i class="text-white fas fa-check"></i></a>
+								<a href="?id=<?php echo $value['id']; ?>&checked=<?php echo $value['done']; ?>" class="btn btn-success"><i class="text-white fas fa-check"></i></a>
 							</div>
 						</div>
 						<?php

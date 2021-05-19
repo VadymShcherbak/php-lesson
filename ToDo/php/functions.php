@@ -162,3 +162,27 @@ function va_save_edit() {
 	die();
 }
 
+/**
+ * Done task.
+ */
+function va_done_task() {
+	if ( ! empty( $_GET['checked'] ) || '0' === $_GET['checked'] ) {
+		$id      = esc_html( $_GET['id'] );
+		$checked = esc_html( $_GET['checked'] );
+
+		$checked = $checked ? 0 : 1;
+
+		global $pdo;
+
+		$res = $pdo->prepare( 'UPDATE `task` SET done = :checked WHERE id = :id' );
+
+		$res->bindParam( ':checked', $checked );
+		$res->bindParam( ':id', $id );
+
+		$res->execute();
+
+		header( 'Location: index.php' );
+		die();
+	}
+}
+

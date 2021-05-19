@@ -40,3 +40,7 @@ form,
 .wrapper-on {
 	display: block;
 }
+
+.task-done {
+	text-decoration: line-through;
+}
