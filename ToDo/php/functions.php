@@ -103,7 +103,6 @@ function va_check_task( $id ) {
 	$res = $pdo->prepare( 'SELECT * FROM `task` WHERE id = :id' );
 
 	$res->bindParam( ':id', $id );
-
 	$res->execute();
 
 	return $res->rowCount();
