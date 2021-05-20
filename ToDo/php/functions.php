@@ -13,11 +13,12 @@ $pdo = new PDO( 'mysql:host=192.168.1.133;dbname=todo;', 'vadym', 'vadym' );
  * Add task.
  */
 function va_add_task() {
-	global $pdo;
-
 	if ( ! isset( $_POST['add_task'] ) ) {
 		return;
 	}
+
+	global $pdo;
+
 	if ( empty( $_POST['n_task'] ) && empty( $_POST['t_date'] ) ) {
 		va_add_notice( 'error', 'Введите задание и дату!' );
 		return;
@@ -35,13 +36,10 @@ function va_add_task() {
 		return;
 	}
 
-	$done = 0;
-
-	$add_task = $pdo->prepare( 'INSERT INTO `task` SET name = :name, date = :date, done = :done' );
+	$add_task = $pdo->prepare( 'INSERT INTO `task` SET name = :name, date = :date' );
 
 	$add_task->bindParam( ':name', esc_html( $_POST['n_task'] ) );
 	$add_task->bindParam( ':date', esc_html( $_POST['t_date'] ) );
-	$add_task->bindParam( ':done', $done );
 
 	if ( $add_task->execute() ) {
 		va_add_notice( 'success', 'Задание успешно добавлено' );
@@ -49,8 +47,7 @@ function va_add_task() {
 		va_add_notice( 'error', 'Задание не добавлено' );
 	}
 
-	header( 'Location: index.php' );
-	die();
+	va_header( 'index.php' );
 }
 
 /**
@@ -61,6 +58,7 @@ function va_get_task() {
 
 	$res = $pdo->prepare( 'SELECT * FROM `task` ORDER BY id DESC' );
 	$res->execute();
+
 	return $res->fetchAll( PDO::FETCH_ASSOC );
 }
 
@@ -68,18 +66,17 @@ function va_get_task() {
  * Delete task.
  */
 function va_del_task() {
-	global $pdo;
-
 	if ( ! isset( $_GET['delete'] ) ) {
 		return;
 	}
+
+	global $pdo;
 
 	$del = esc_html( $_GET['delete'] );
 
 	if ( va_check_task( $del ) === 0 ) {
 		va_add_notice( 'error', 'Такого задания не существует' );
-		header( 'Location: index.php' );
-		die();
+		va_header( 'index.php' );
 	}
 
 	$res = $pdo->prepare( 'DELETE FROM `task` WHERE id = :del' );
@@ -91,20 +88,20 @@ function va_del_task() {
 		va_add_notice( 'error', 'Задание не удалено' );
 	}
 
-	header( 'Location: index.php' );
-	die();
+	va_header( 'index.php' );
 }
 
 /**
  * Сheck task.
  *
- * @param  mixed $id = id.
- * @return boolean
+ * @param  mixed $id id.
+ * @return int
  */
 function va_check_task( $id ) {
 	global $pdo;
 
 	$res = $pdo->prepare( 'SELECT * FROM `task` WHERE id = :id' );
+
 	$res->bindParam( ':id', $id );
 
 	$res->execute();
@@ -115,44 +112,26 @@ function va_check_task( $id ) {
 
 /**
  * Edit task.
- *
- * @param  mixed $param Еype.
- * @return void
  */
-function va_edit_task( $param ) {
-	global $pdo;
-
+function va_edit_task() {
 	if ( ! isset( $_GET['edit'] ) ) {
 		return;
 	}
+
+	global $pdo;
 
 	$id = esc_html( $_GET['edit'] );
 
 	if ( va_check_task( $id ) === 0 ) {
 		va_add_notice( 'error', 'Такого задания не существует' );
-		header( 'Location: index.php' );
-		die();
+		va_header( 'index.php' );
 	}
 
 	$res = $pdo->prepare( 'SELECT * FROM `task` WHERE id = :id' );
 
 	$res->bindParam( ':id', $id );
 	$res->execute();
-	$task_arr = $res->fetchAll( PDO::FETCH_ASSOC );
-
-	foreach ( $task_arr as $value ) {
-		$e_id   = $value['id'];
-		$e_text = $value['name'];
-		$e_date = $value['date'];
-	}
-
-	if ( 'e_id' === $param ) {
-		return $e_id;
-	} elseif ( 'e_text' === $param ) {
-		return $e_text;
-	} elseif ( 'e_date' === $param ) {
-		return $e_date;
-	}
+	return $res->fetchAll( PDO::FETCH_ASSOC );
 }
 
 /**
@@ -161,21 +140,17 @@ function va_edit_task( $param ) {
  * @return void
  */
 function va_save_edit() {
-	global $pdo;
-
 	if ( ! isset( $_POST['save_edit'] ) ) {
 		return;
 	}
 
-	$e_id   = esc_html( $_POST['edit_id'] );
-	$e_text = esc_html( $_POST['edit_text'] );
-	$e_date = esc_html( $_POST['edit_date'] );
+	global $pdo;
 
 	$res = $pdo->prepare( 'UPDATE `task` SET name = :task, date = :date WHERE id = :id' );
 
-	$res->bindParam( ':id', $e_id );
-	$res->bindParam( ':task', $e_text );
-	$res->bindParam( ':date', $e_date );
+	$res->bindParam( ':id', esc_html( $_POST['edit_id'] ) );
+	$res->bindParam( ':task', esc_html( $_POST['edit_text'] ) );
+	$res->bindParam( ':date', esc_html( $_POST['edit_date'] ) );
 
 	if ( $res->execute() ) {
 		va_add_notice( 'success', 'Задание успешно изменено' );
@@ -183,14 +158,17 @@ function va_save_edit() {
 		va_add_notice( 'error', 'Задание не изменено' );
 	}
 
-	header( 'Location: index.php' );
-	die();
+	va_header( 'index.php' );
 }
 
 /**
  * Done Task.
  */
 function va_done_task() {
+	if ( ! isset( $_GET['checked'] ) ) {
+		return;
+	}
+
 	global $pdo;
 
 	if ( ! empty( $_GET['checked'] ) || '0' === $_GET['checked'] ) {
@@ -200,7 +178,7 @@ function va_done_task() {
 		$checked = $checked ? 0 : 1;
 
 		if ( va_check_task( $id ) === 0 ) {
-			va_add_notice( 'error', 'Такого задания не существует' );
+			va_add_notice( 'error', 'Такого задания не существует!' );
 			header( 'Location: index.php' );
 			die();
 		}
@@ -212,8 +190,7 @@ function va_done_task() {
 
 		$res->execute();
 
-		header( 'Location: index.php' );
-		die();
+		va_header( 'index.php' );
 	}
 }
 

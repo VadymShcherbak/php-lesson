@@ -13,6 +13,7 @@ va_del_task();
 va_done_task();
 
 $get_arr_task = va_get_task();
+$task_arr     = va_edit_task();
 ?>
 
 <!DOCTYPE html>
@@ -73,9 +74,9 @@ $get_arr_task = va_get_task();
 			<div class="edit-inner">
 				<form action="" method="post">
 					<div class="input-group">
-						<input type="hidden" name="edit_id" value="<?php echo va_edit_task( 'e_id' ); ?>">
-						<input type="text" class="form-control col-9" name="edit_text" placeholder="Edit task" aria-label="Edit task" value="<?php echo va_edit_task( 'e_text' ); ?>">
-						<input type="date" class="form-control col-3" name="edit_date" value="<?php echo va_edit_task( 'e_date' ); ?>">
+						<input type="hidden" name="edit_id" value="<?php echo $task_arr[0]['id']; ?>">
+						<input type="text" class="form-control col-9" name="edit_text" placeholder="Edit task" aria-label="Edit task" value="<?php echo $task_arr[0]['name']; ?>">
+						<input type="date" class="form-control col-3" name="edit_date" value="<?php echo $task_arr[0]['date']; ?>">
 						<div class="input-group-append">
 							<button type="submit" class="btn btn-primary" name="save_edit">Save</button>
 						</div>

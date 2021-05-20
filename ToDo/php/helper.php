@@ -4,7 +4,7 @@ session_start();
 /**
  * Ar
  *
- * @param  mixed $data = data.
+ * @param  mixed $data data.
  */
 function ar( $data ) {
 	echo '<pre>';
@@ -15,7 +15,7 @@ function ar( $data ) {
 /**
  * Esc_html
  *
- * @param  mixed $data - data.
+ * @param  mixed $data data.
  */
 function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
@@ -24,8 +24,8 @@ function esc_html( $data ) {
 /**
  * Add notice.
  *
- * @param  mixed $type = type.
- * @param  mixed $massage = massage.
+ * @param  mixed $type type.
+ * @param  mixed $massage massage.
  */
 function va_add_notice( $type, $massage ) {
 	$_SESSION['notice'][ $type ][] = $massage;
@@ -34,7 +34,7 @@ function va_add_notice( $type, $massage ) {
 /**
  * Print notice
  *
- * @param  mixed $type = type.
+ * @param  mixed $type type.
  * @return void
  */
 function va_print_notice( $type ) {
@@ -50,13 +50,13 @@ function va_print_notice( $type ) {
 	if ( ! empty( $arr_notice ) ) {
 		?>
 
-	<div class="alert <?php echo $type_class; ?> text-center mt-3" role="alert">
-		<?php
-		foreach ( $arr_notice as $value ) {
-			echo $value;
-		}
-		?>
-	</div>
+		<div class="alert <?php echo $type_class; ?> text-center mt-3" role="alert">
+			<?php
+			foreach ( $arr_notice as $value ) {
+				echo $value;
+			}
+			?>
+		</div>
 
 		<?php
 	}
