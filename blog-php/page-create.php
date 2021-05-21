@@ -27,7 +27,7 @@ require 'functions.php';
 		<?php va_print_notice( 'error' ); ?>
 			<div class="wrapper row justify-content-center">
 				<div class="col-lg-10">
-					<form action="" method="post" enctype = "multipart/form-data" class="mb-3">
+					<form action="" method="post" enctype = "multipart/form-data" class="form-style mb-3">
 						<div class="input-group row">
 							<div class="col-lg-12 mb-3">
 								<input type="text" class="form-control col-lg-12" name="title" placeholder="Enter title" aria-label="Enter title">

@@ -6,6 +6,8 @@
  */
 
 require 'functions.php';
+
+$get_post = va_get_post();
 ?>
 
 <!DOCTYPE html>
@@ -22,26 +24,41 @@ require 'functions.php';
 	<title>Blog</title>
 </head>
 <body>
-	<section class="main">
+	<section class="main blog-bg">
 		<div class="container">
-			<div class="wrapper row">
-				<div class="col-lg-4">
+		<div class="main-title">
+			<h1>BLOG</h1>
+			<a href="page-create.php" class="btn btn-success">New Post</a>
+		</div>
+			<div class="wrapper row row-spacing-col">
+			<?php foreach ( $get_post as $value ) : ?>
+				<div class="col-lg-4 col-md-6 col-sm-12">
 					<div class="post">
 						<div class="post-img">
-							<img src="" alt="">
+							<a href="post-page.php?id=<?php echo $value['id']; ?>">
+								<img src="<?php echo $value['img_url']; ?>" alt="">
+							</a>
 						</div>
 						<div class="post-inner">
-							<h4>Title</h4>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-							<a href="" class="btn btn-primary">Show post</a>
+							<h4>
+								<a href="post-page.php?id=<?php echo $value['id']; ?>"><?php echo $value['title']; ?></a>
+							</h4>
+							<p><?php echo $value['short_text']; ?></p>
+							<div class="date-comm">
+								<div class="date-cr">
+									<p><?php echo date_format( date_create( $value['date'] ), 'd.m.Y' ); ?></p>
+								</div>
+								<div class="icon-com">
+								<i class="fad fa-comments"></i>
+								</div>
+							</div>
+							<a href="post-page.php?id=<?php echo $value['id']; ?>" class="btn btn-info">Show Post</a>
 						</div>
 					</div>
 				</div>
+			<?php endforeach; ?>
 			</div>
 		</div>
 	</section>
-	
-	
-	<a href="page-create.php" class="btn btn-primary">Create Post</a>
 </body>
 </html>

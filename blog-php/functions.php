@@ -85,3 +85,78 @@ function va_add_post() {
 }
 
 va_add_post();
+
+/**
+ * Get post.
+ */
+function va_get_post() {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `posts` ORDER BY id DESC' );
+	$res->execute();
+
+	return $res->fetchAll( PDO::FETCH_ASSOC );
+}
+
+/**
+ * Get post by id.
+ */
+function va_get_post_by_id() {
+	if ( ! isset( $_GET['id'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `posts` WHERE id =:id' );
+	$res->bindParam( ':id', esc_html( $_GET['id'] ) );
+	$res->execute();
+
+	return $res->fetchAll( PDO::FETCH_ASSOC );
+}
+
+/**
+ * Add post comments.
+ */
+function va_add_comments() {
+	if ( ! isset( $_POST['add_comment'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	if ( empty( $_POST['comm_text'] ) && empty( $_POST['u_name'] ) ) {
+		va_add_notice( 'error', 'Введите имя и коментарий!' );
+		return;
+
+	} elseif ( empty( $_POST['comm_text'] ) ) {
+		va_add_notice( 'error', 'Введите коментарий!' );
+		return;
+
+	} elseif ( empty( $_POST['u_name'] ) ) {
+		va_add_notice( 'error', 'Введите имя!' );
+		return;
+	}
+
+	$add_com = $pdo->prepare( 'INSERT INTO `comments` SET comment = :comment, u_name =:u_name' );
+	$add_com->bindParam( ':comment', esc_html( $_POST['comm_text'] ) );
+	$add_com->bindParam( ':u_name', esc_html( $_POST['u_name'] ) );
+
+	if ( $add_com->execute() ) {
+		va_add_notice( 'success', 'Коментарий успешно добавлен' );
+	} else {
+		va_add_notice( 'error', 'Коментарий не добавлен' );
+	}
+}
+
+/**
+ * Get comments.
+ */
+function va_get_comments() {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `comments` ORDER BY id DESC' );
+	$res->execute();
+
+	return $res->fetchAll( PDO::FETCH_ASSOC );
+}
