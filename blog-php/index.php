@@ -26,10 +26,11 @@ $get_post = va_get_post();
 <body>
 	<section class="main blog-bg">
 		<div class="container">
-		<div class="main-title">
-			<h1>BLOG</h1>
-			<a href="page-create.php" class="btn btn-success">New Post</a>
-		</div>
+			<?php va_print_notice( 'success' ); ?>
+			<div class="main-title">
+				<h1>BLOG</h1>
+				<a href="page-create.php" class="btn btn-success">New Post</a>
+			</div>
 			<div class="wrapper row row-spacing-col">
 			<?php foreach ( $get_post as $value ) : ?>
 				<div class="col-lg-4 col-md-6 col-sm-12">
@@ -39,8 +40,8 @@ $get_post = va_get_post();
 								<img src="<?php echo $value['img_url']; ?>" alt="">
 							</a>
 							<div class="post-category">
-								<p><?php echo $value['category'] ?></p>
-						</div>
+								<p><?php echo $value['category']; ?></p>
+							</div>
 						</div>
 						<div class="post-inner">
 							<h4>
@@ -52,7 +53,8 @@ $get_post = va_get_post();
 									<p><?php echo date_format( date_create( $value['date'] ), 'd.m.Y' ); ?></p>
 								</div>
 								<div class="icon-com">
-								<i class="fad fa-comments"></i>
+									<i class="fad fa-comments"></i>
+									<div class="count_com"><?php echo va_count_comments( $value['id'] ); ?></div>
 								</div>
 							</div>
 							<a href="post-page.php?id=<?php echo $value['id']; ?>" class="btn btn-info">Show Post</a>

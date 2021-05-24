@@ -31,7 +31,7 @@ function va_add_img() {
 			va_add_notice( 'error', 'Не верный формат картинки' );
 		}
 	} else {
-		va_add_notice( 'error', 'Картинка не загружена! ' );
+		va_add_notice( 'error', 'Загрузите картинку ' );
 	}
 	return $dest_path;
 }
@@ -48,23 +48,17 @@ function va_add_post() {
 
 	global $pdo;
 
-	if ( empty( $_POST['title'] ) || empty( $_POST['short_text'] ) || empty( $_POST['text'] ) ) {
-		va_add_notice( 'error', 'Заполните пустые поля' );
+	if ( empty( $_POST['title'] ) && empty( $_POST['short_text'] ) && empty( $_POST['text'] ) ) {
+		va_add_notice( 'error', 'заполните пустые поля!' );
 		return;
-	}
-
-	if ( empty( $_POST['title'] ) ) {
-		va_add_notice( 'error', 'Напишите название поста' );
+	} elseif ( empty( $_POST['title'] ) ) {
+		va_add_notice( 'error', 'напишите название поста!' );
 		return;
-	}
-
-	if ( empty( $_POST['short_text'] ) ) {
-		va_add_notice( 'error', 'Напишите краткое описание поста' );
+	} elseif ( empty( $_POST['short_text'] ) ) {
+		va_add_notice( 'error', 'напишите краткое описание поста!' );
 		return;
-	}
-
-	if ( empty( $_POST['text'] ) ) {
-		va_add_notice( 'error', 'Напишите описание поста' );
+	} elseif ( empty( $_POST['text'] ) ) {
+		va_add_notice( 'error', 'напишите описание поста!' );
 		return;
 	}
 
@@ -153,6 +147,8 @@ function va_add_comments() {
 
 /**
  * Get comments.
+ *
+ * @param  mixed $id id from posts to comments.
  */
 function va_get_comments( $id ) {
 	global $pdo;
@@ -163,3 +159,20 @@ function va_get_comments( $id ) {
 
 	return $res->fetchAll( PDO::FETCH_ASSOC );
 }
+
+
+/**
+ * Count comments
+ *
+ * @param  mixed $id get id from url.
+ */
+function va_count_comments( $id ) {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT COUNT(*) FROM `comments` WHERE post_id = :post_id' );
+	$res->bindParam( ':post_id', $id );
+	$res->execute();
+
+	return $res->fetchColumn();
+}
+

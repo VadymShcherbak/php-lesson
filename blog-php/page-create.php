@@ -34,8 +34,8 @@ require 'functions.php';
 							</div>
 							<div class="col-lg-12 mb-3">
 								<select name="category" class="form-control">
-									<option>Gun</option>
 									<option>Sport</option>
+									<option>Gun</option>
 									<option>Auto</option>
 									<option>Drink</option>
 								</select>

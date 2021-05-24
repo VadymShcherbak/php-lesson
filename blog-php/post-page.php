@@ -28,10 +28,12 @@ $va_get_comments = va_get_comments( $_GET['id'] );
 <body>
 	<section class="main post-bg">
 		<div class="container">
-		<div class="main-title">
-			<h1>POST</h1>
-			<a href="index.php" class="btn btn-success">Blog</a>
-		</div>
+			<?php va_print_notice( 'error' ); ?>
+			<?php va_print_notice( 'success' ); ?>
+			<div class="main-title">
+				<h1>POST</h1>
+				<a href="index.php" class="btn btn-success">Blog</a>
+			</div>
 			<div class="wrapper row row-spacing-col">
 			<?php foreach ( $get_id_post as $value ) : ?>
 				<div class="col-lg-12">
@@ -67,8 +69,6 @@ $va_get_comments = va_get_comments( $_GET['id'] );
 			</div>
 			<div class="wrapper-form row">
 				<div class="col-lg-12">
-					<?php va_print_notice( 'error' ); ?>
-					<?php va_print_notice( 'success' ); ?>
 						<form action="" method="post">
 							<div class="input-group row">
 								<div class="col-lg-12 mb-3">
