@@ -89,7 +89,7 @@ img {
 }
 
 .post-img {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 	border-radius: 10px;
 	overflow: hidden;
 
@@ -132,4 +132,29 @@ img {
 	i {
 		font-size: 26px;
 	}
+}
+
+.comments {
+	padding: 10px;
+	background-color: #ffffff59;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.post-category {
+	position: relative;
+	margin-top: -46px;
+	text-align: center;
+	background-color: #50a7eed8;
+	max-width: 60px;
+	border-radius: 0 5px 5px 0;
+	color: white;
+	font-size: 19px;
+}
+
+.big-post-cat {
+    margin-top: -60px;
+    max-width: 180px;
+	border-radius: 0 10px 0 10px;
+    font-size: 36px;
 }

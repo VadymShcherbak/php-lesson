@@ -68,9 +68,10 @@ function va_add_post() {
 		return;
 	}
 
-	$add_post = $pdo->prepare( 'INSERT INTO `posts` SET title = :title, img_url = :img_url, short_text = :short_text, text = :text' );
+	$add_post = $pdo->prepare( 'INSERT INTO `posts` SET title = :title, category = :category, img_url = :img_url, short_text = :short_text, text = :text' );
 
 	$add_post->bindParam( ':title', esc_html( $_POST['title'] ) );
+	$add_post->bindParam( ':category', esc_html( $_POST['category'] ) );
 	$add_post->bindParam( ':short_text', esc_html( $_POST['short_text'] ) );
 	$add_post->bindParam( ':text', esc_html( $_POST['text'] ) );
 	$add_post->bindParam( ':img_url', va_add_img() );
@@ -138,9 +139,10 @@ function va_add_comments() {
 		return;
 	}
 
-	$add_com = $pdo->prepare( 'INSERT INTO `comments` SET comment = :comment, u_name =:u_name' );
+	$add_com = $pdo->prepare( 'INSERT INTO `comments` SET comment = :comment, u_name =:u_name, post_id = :post_id' );
 	$add_com->bindParam( ':comment', esc_html( $_POST['comm_text'] ) );
 	$add_com->bindParam( ':u_name', esc_html( $_POST['u_name'] ) );
+	$add_com->bindParam( ':post_id', esc_html( $_POST['post-id'] ) );
 
 	if ( $add_com->execute() ) {
 		va_add_notice( 'success', 'Коментарий успешно добавлен' );
@@ -152,10 +154,11 @@ function va_add_comments() {
 /**
  * Get comments.
  */
-function va_get_comments() {
+function va_get_comments( $id ) {
 	global $pdo;
 
-	$res = $pdo->prepare( 'SELECT * FROM `comments` ORDER BY id DESC' );
+	$res = $pdo->prepare( 'SELECT * FROM `comments` WHERE post_id = :post_id ORDER BY id DESC' );
+	$res->bindParam( ':post_id', $id );
 	$res->execute();
 
 	return $res->fetchAll( PDO::FETCH_ASSOC );

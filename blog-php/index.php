@@ -38,6 +38,9 @@ $get_post = va_get_post();
 							<a href="post-page.php?id=<?php echo $value['id']; ?>">
 								<img src="<?php echo $value['img_url']; ?>" alt="">
 							</a>
+							<div class="post-category">
+								<p><?php echo $value['category'] ?></p>
+						</div>
 						</div>
 						<div class="post-inner">
 							<h4>

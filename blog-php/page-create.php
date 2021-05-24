@@ -33,6 +33,14 @@ require 'functions.php';
 								<input type="text" class="form-control col-lg-12" name="title" placeholder="Enter title" aria-label="Enter title">
 							</div>
 							<div class="col-lg-12 mb-3">
+								<select name="category" class="form-control">
+									<option>Gun</option>
+									<option>Sport</option>
+									<option>Auto</option>
+									<option>Drink</option>
+								</select>
+							</div>
+							<div class="col-lg-12 mb-3">
 								<input type="text" class="form-control col-lg-12" name="short_text" placeholder="short description" aria-label="description">
 							</div>
 							<div class="col-lg-12 mb-3">
