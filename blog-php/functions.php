@@ -11,6 +11,8 @@ $pdo = new PDO( 'mysql:host=192.168.1.133;dbname=blog;', 'vadym', 'vadym' );
 
 /**
  * Add img.
+ *
+ * @return str
  */
 function va_add_img() {
 	if ( ! isset( $_POST['add_post'] ) ) {
@@ -24,7 +26,7 @@ function va_add_img() {
 		$file_extension          = strtolower( end( $array ) );
 		$allowed_file_extensions = array( 'jpg', 'gif', 'png' );
 
-		if ( in_array( $file_extension, $allowed_file_extensions ) ) {
+		if ( in_array( $file_extension, $allowed_file_extensions, true ) ) {
 			$dest_path = 'uploads/' . $file_name;
 			move_uploaded_file( $file_tmp_path, $dest_path );
 		} else {
@@ -36,10 +38,11 @@ function va_add_img() {
 	return $dest_path;
 }
 
-va_add_img();
 
 /**
- * Add post
+ * Add post.
+ *
+ * @return arr
  */
 function va_add_post() {
 	if ( ! isset( $_POST['add_post'] ) ) {
@@ -48,17 +51,20 @@ function va_add_post() {
 
 	global $pdo;
 
-	if ( empty( $_POST['title'] ) && empty( $_POST['short_text'] ) && empty( $_POST['text'] ) ) {
-		va_add_notice( 'error', 'заполните пустые поля!' );
-		return;
-	} elseif ( empty( $_POST['title'] ) ) {
-		va_add_notice( 'error', 'напишите название поста!' );
-		return;
-	} elseif ( empty( $_POST['short_text'] ) ) {
-		va_add_notice( 'error', 'напишите краткое описание поста!' );
-		return;
-	} elseif ( empty( $_POST['text'] ) ) {
-		va_add_notice( 'error', 'напишите описание поста!' );
+	if ( empty( $_POST['title'] ) ) {
+		va_add_notice( 'error', 'напишите название поста! ' );
+	}
+	if ( empty( $_POST['category'] ) ) {
+		va_add_notice( 'error', 'напишите катигорию! ' );
+	}
+	if ( empty( $_POST['short_text'] ) ) {
+		va_add_notice( 'error', 'напишите краткое описание поста! ' );
+	}
+	if ( empty( $_POST['text'] ) ) {
+		va_add_notice( 'error', 'напишите описание поста! ' );
+	}
+
+	if ( $_SESSION['notice']['error'] ) {
 		return;
 	}
 
@@ -72,17 +78,18 @@ function va_add_post() {
 
 	if ( $add_post->execute() ) {
 		va_add_notice( 'success', 'Пост успешно добавлен' );
+		va_header( 'index.php' );
 	} else {
-		va_add_notice( 'error', 'Пост не добавлен' );
+		va_add_notice( 'error', ' Пост не добавлен' );
 	}
-
-	va_header( 'index.php' );
 }
 
 va_add_post();
 
 /**
  * Get post.
+ *
+ * @return arr
  */
 function va_get_post() {
 	global $pdo;
@@ -96,10 +103,12 @@ function va_get_post() {
 
 /**
  * Get post by id.
+ *
+ *  @return arr
  */
 function va_get_post_by_id() {
 	if ( ! isset( $_GET['id'] ) ) {
-		return;
+		return '';
 	}
 
 	global $pdo;
@@ -114,6 +123,8 @@ function va_get_post_by_id() {
 
 /**
  * Add post comments.
+ *
+ * @return arr
  */
 function va_add_comments() {
 	if ( ! isset( $_POST['add_comment'] ) ) {
@@ -122,16 +133,14 @@ function va_add_comments() {
 
 	global $pdo;
 
-	if ( empty( $_POST['comm_text'] ) && empty( $_POST['u_name'] ) ) {
-		va_add_notice( 'error', 'Введите имя и коментарий!' );
-		return;
-
-	} elseif ( empty( $_POST['comm_text'] ) ) {
-		va_add_notice( 'error', 'Введите коментарий!' );
-		return;
-
-	} elseif ( empty( $_POST['u_name'] ) ) {
+	if ( empty( $_POST['comm_text'] ) ) {
+		va_add_notice( 'error', 'Введите коментарий! ' );
+	}
+	if ( empty( $_POST['u_name'] ) ) {
 		va_add_notice( 'error', 'Введите имя!' );
+	}
+
+	if ( $_SESSION['notice']['error'] ) {
 		return;
 	}
 
@@ -143,6 +152,7 @@ function va_add_comments() {
 
 	if ( $add_com->execute() ) {
 		va_add_notice( 'success', 'Коментарий успешно добавлен' );
+		va_header( 'post-page.php?id=' . $_POST['post-id'] . '#comments' );
 	} else {
 		va_add_notice( 'error', 'Коментарий не добавлен' );
 	}
@@ -152,6 +162,7 @@ function va_add_comments() {
  * Get comments.
  *
  * @param  mixed $id id from posts to comments.
+ * @return arr
  */
 function va_get_comments( $id ) {
 	global $pdo;
@@ -169,6 +180,7 @@ function va_get_comments( $id ) {
  * Count comments
  *
  * @param  mixed $id get id from url.
+ * @return arr
  */
 function va_count_comments( $id ) {
 	global $pdo;
@@ -181,3 +193,42 @@ function va_count_comments( $id ) {
 	return $res->fetchColumn();
 }
 
+/**
+ * Add category.
+ *
+ * @return void
+ */
+function va_add_category() {
+	if ( ! isset( $_POST['add_category'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	if ( empty( $_POST['w_category'] ) ) {
+		va_add_notice( 'error', 'Напишите категорию' );
+	}
+
+	$res = $pdo->prepare( 'INSERT INTO  `category_t` SET name_category = :cat_name' );
+
+	$res->bindParam( ':cat_name', esc_html( $_POST['w_category'] ) );
+
+	if ( $res->execute() ) {
+		va_add_notice( 'success', 'Категория успешно добавлена' );
+	} else {
+		va_add_notice( 'error', 'Категория не добавлена' );
+	}
+}
+
+/**
+ * Get category.
+ *
+ * @return arr
+ */
+function va_get_category() {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `category_t`' );
+
+	return $res->fetchAll( PDO::FETCH_ASSOC );
+}
