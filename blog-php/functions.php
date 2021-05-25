@@ -88,6 +88,7 @@ function va_get_post() {
 	global $pdo;
 
 	$res = $pdo->prepare( 'SELECT * FROM `posts` ORDER BY id DESC' );
+
 	$res->execute();
 
 	return $res->fetchAll( PDO::FETCH_ASSOC );
@@ -104,6 +105,7 @@ function va_get_post_by_id() {
 	global $pdo;
 
 	$res = $pdo->prepare( 'SELECT * FROM `posts` WHERE id =:id' );
+
 	$res->bindParam( ':id', esc_html( $_GET['id'] ) );
 	$res->execute();
 
@@ -134,6 +136,7 @@ function va_add_comments() {
 	}
 
 	$add_com = $pdo->prepare( 'INSERT INTO `comments` SET comment = :comment, u_name =:u_name, post_id = :post_id' );
+
 	$add_com->bindParam( ':comment', esc_html( $_POST['comm_text'] ) );
 	$add_com->bindParam( ':u_name', esc_html( $_POST['u_name'] ) );
 	$add_com->bindParam( ':post_id', esc_html( $_POST['post-id'] ) );
@@ -154,6 +157,7 @@ function va_get_comments( $id ) {
 	global $pdo;
 
 	$res = $pdo->prepare( 'SELECT * FROM `comments` WHERE post_id = :post_id ORDER BY id DESC' );
+
 	$res->bindParam( ':post_id', $id );
 	$res->execute();
 
@@ -170,6 +174,7 @@ function va_count_comments( $id ) {
 	global $pdo;
 
 	$res = $pdo->prepare( 'SELECT COUNT(*) FROM `comments` WHERE post_id = :post_id' );
+
 	$res->bindParam( ':post_id', $id );
 	$res->execute();
 
