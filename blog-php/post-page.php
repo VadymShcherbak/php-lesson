@@ -18,7 +18,7 @@ require 'header.php';
 ?>
 <section class="main post-bg">
 	<div class="container">
-		<div class="main-title">
+		<div class="blog-head">
 			<h1>POST</h1>
 			<a href="index.php" class="btn btn-success">Blog</a>
 		</div>
@@ -27,9 +27,7 @@ require 'header.php';
 			<div class="col-lg-12">
 				<div class="post">
 					<div class="post-img">
-						<a href="">
-							<img src="<?php echo $value['img_url']; ?>" alt="">
-						</a>
+						<img src="<?php echo $value['img_url']; ?>" alt="">
 					</div>
 					<div class="post-category big-post-cat">
 						<p>
@@ -38,9 +36,7 @@ require 'header.php';
 					</div>
 					<div class="post-inner">
 						<h4>
-							<a href="">
-								<?php echo $value['title']; ?>
-							</a>
+							<?php echo $value['title']; ?>
 						</h4>
 						<p>
 							<?php echo $value['text']; ?>
@@ -64,7 +60,7 @@ require 'header.php';
 							<?php echo $value['comment']; ?>
 						</p>
 					</div>
-			</div>
+				</div>
 			<?php endforeach; ?>
 		</div>
 		<div class="wrapper-form row">

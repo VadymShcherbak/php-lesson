@@ -89,16 +89,28 @@ va_add_post();
 /**
  * Get post.
  *
+ * @param  mixed $category category.
  * @return arr
  */
-function va_get_post() {
+function va_get_post( $category = '' ) {
 	global $pdo;
 
-	$res = $pdo->prepare( 'SELECT posts.*, category_t.name_category FROM `posts` LEFT JOIN category_t ON category_t.id = posts.category_id ORDER BY id DESC' );
+	if ( $category && 'All' !== $category ) {
+		$res = $pdo->prepare( 'SELECT posts.*, category_t.name_category FROM `posts` LEFT JOIN category_t ON category_t.id = posts.category_id WHERE posts.category_id = :category ORDER BY id DESC' );
+		$res->bindParam( ':category', esc_html( $_POST['category'] ) );
+	} else {
+		$res = $pdo->prepare( 'SELECT posts.*, category_t.name_category FROM `posts` LEFT JOIN category_t ON category_t.id = posts.category_id ORDER BY id DESC' );
+	}
 
 	$res->execute();
+	$a = $res->fetchAll( PDO::FETCH_ASSOC );
 
-	return $res->fetchAll( PDO::FETCH_ASSOC );
+	if ( empty( $a ) ) {
+		va_add_notice( 'error', 'Нет постов с такой категорией' );
+		va_header( 'index.php' );
+	} else {
+		return $a;
+	}
 }
 
 /**
@@ -113,7 +125,7 @@ function va_get_post_by_id() {
 
 	global $pdo;
 
-	$res = $pdo->prepare( 'SELECT posts.*, category_t.name_category FROM `posts` LEFT JOIN category_t ON category_t.id = posts.category_id WHERE posts.id =:id' );
+	$res = $pdo->prepare( 'SELECT posts.*, category_t.name_category FROM `posts` LEFT JOIN category_t ON category_t.id = posts.category_id WHERE posts.id = :id' );
 
 	$res->bindParam( ':id', esc_html( $_GET['id'] ) );
 	$res->execute();

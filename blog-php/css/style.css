@@ -11,16 +11,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-.form-style {
-  padding: 15px;
-  background-color: #d9e9d85c;
-  border-radius: 10px;
-}
-
 img {
   max-width: 100%;
   height: auto;
   vertical-align: middle;
+}
+
+.form-style {
+  padding: 15px;
+  background-color: #d9e9d85c;
+  border-radius: 10px;
 }
 
 .main {
@@ -60,19 +60,19 @@ img {
   margin-right: 0;
 }
 
-.main-title {
+.blog-head {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 }
-.main-title h1 {
+.blog-head h1 {
   color: #474d50;
   margin-bottom: 0;
 }
 
 .post {
   padding: 10px;
-  background-color: #6cb9e994;
+  background-color: #b9e1edd4;
   border-radius: 10px;
 }
 
@@ -84,7 +84,7 @@ img {
 }
 
 .post-img {
-  margin-bottom: 10px;
+  margin-bottom: 11px;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -95,6 +95,10 @@ img {
 }
 .post-img :hover img {
   transform: scale(1.2);
+}
+
+.small-post-img {
+  height: 193px;
 }
 
 .btn-pos {
@@ -127,11 +131,13 @@ img {
 
 .post-category {
   position: relative;
-  margin-top: -24px;
+  margin-top: -34px;
   text-align: center;
-  background-color: #50a7eed8;
+  background-color: #17a3b8e8;
   color: white;
   font-size: 19px;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 5px;
 }
 .post-category p {
   margin-bottom: 0;

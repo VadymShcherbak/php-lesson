@@ -4,34 +4,46 @@
  *
  * @package Blog
  */
+
 session_start();
 
 require 'functions.php';
 
-$get_post = va_get_post();
+$get_post      = va_get_post( $_POST['category'] );
+$show_category = va_get_category();
 
 require 'header.php';
 ?>
 <section class="main blog-bg">
 	<div class="container">
 		<?php va_print_notice( 'success' ); ?>
-		<div class="main-title">
-			<h1>BLOG</h1>
+		<?php va_print_notice( 'error' ); ?>
+		<div class="blog-head">
+			<h1 class="mr-3">BLOG</h1>
+			<form action="" method="post" class="d-flex mr-3">
+				<button type="submit" name="by_category" class="btn btn-info mr-1">By category</button>
+				<select name="category" class="form-control">
+				<option value="All">All</option>
+					<?php foreach ( $show_category as $value ) : ?>
+						<option value="<?php echo $value['id']; ?>" <?php echo ( $value['id'] === $_POST['category'] ) ? 'selected' : ''; ?>><?php echo $value['name_category']; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</form>
 			<a href="page-create.php" class="btn btn-success">New Post</a>
 		</div>
 		<div class="wrapper row row-spacing-col">
 		<?php foreach ( $get_post as $value ) : ?>
 			<div class="col-lg-4 col-md-6 col-sm-12">
 				<div class="post">
-					<div class="post-img">
+					<div class="post-img small-post-img">
 						<a href="post-page.php?id=<?php echo $value['id']; ?>">
 							<img src="<?php echo $value['img_url']; ?>" alt="">
 						</a>
-						<div class="post-category">
-							<p>
-								<?php echo $value['name_category']; ?>
-							</p>
-						</div>
+					</div>
+					<div class="post-category">
+						<p>
+							<?php echo $value['name_category']; ?>
+						</p>
 					</div>
 					<div class="post-inner">
 						<h4>
