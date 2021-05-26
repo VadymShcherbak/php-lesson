@@ -68,7 +68,7 @@ function va_add_post() {
 		return;
 	}
 
-	$add_post = $pdo->prepare( 'INSERT INTO `posts` SET title = :title, category = :category, img_url = :img_url, short_text = :short_text, text = :text' );
+	$add_post = $pdo->prepare( 'INSERT INTO `posts` SET title = :title, category_id = :category, img_url = :img_url, short_text = :short_text, text = :text' );
 
 	$add_post->bindParam( ':title', esc_html( $_POST['title'] ) );
 	$add_post->bindParam( ':category', esc_html( $_POST['category'] ) );
@@ -94,7 +94,7 @@ va_add_post();
 function va_get_post() {
 	global $pdo;
 
-	$res = $pdo->prepare( 'SELECT * FROM `posts` ORDER BY id DESC' );
+	$res = $pdo->prepare( 'SELECT posts.*, category_t.name_category FROM `posts` LEFT JOIN category_t ON category_t.id = posts.category_id ORDER BY id DESC' );
 
 	$res->execute();
 
@@ -113,7 +113,7 @@ function va_get_post_by_id() {
 
 	global $pdo;
 
-	$res = $pdo->prepare( 'SELECT * FROM `posts` WHERE id =:id' );
+	$res = $pdo->prepare( 'SELECT posts.*, category_t.name_category FROM `posts` LEFT JOIN category_t ON category_t.id = posts.category_id WHERE posts.id =:id' );
 
 	$res->bindParam( ':id', esc_html( $_GET['id'] ) );
 	$res->execute();
@@ -209,6 +209,10 @@ function va_add_category() {
 		va_add_notice( 'error', 'Напишите категорию' );
 	}
 
+	if ( $_SESSION['notice']['error'] ) {
+		return;
+	}
+
 	$res = $pdo->prepare( 'INSERT INTO  `category_t` SET name_category = :cat_name' );
 
 	$res->bindParam( ':cat_name', esc_html( $_POST['w_category'] ) );
@@ -229,6 +233,7 @@ function va_get_category() {
 	global $pdo;
 
 	$res = $pdo->prepare( 'SELECT * FROM `category_t`' );
+	$res->execute();
 
 	return $res->fetchAll( PDO::FETCH_ASSOC );
 }

@@ -17,6 +17,7 @@ require 'header.php';
 <section class="main bg-img">
 	<div class="container">
 	<?php va_print_notice( 'error' ); ?>
+	<?php va_print_notice( 'success' ); ?>
 		<div class="wrapper row justify-content-center">
 			<div class="col-lg-10">
 				<form action="" method="post" class="form-style mb-3">

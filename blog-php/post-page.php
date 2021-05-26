@@ -33,7 +33,7 @@ require 'header.php';
 					</div>
 					<div class="post-category big-post-cat">
 						<p>
-							<?php echo $value['category']; ?>
+							<?php echo $value['name_category']; ?>
 						</p>
 					</div>
 					<div class="post-inner">
@@ -53,7 +53,7 @@ require 'header.php';
 		<div class="show-comm row" id="comments">
 			<?php foreach ( $va_get_comments as $value ) : ?>
 				<div class="col-lg-12">
-					<div class="comments">
+					<div class="comments" id="com-link">
 						<h4>
 							<?php echo $value['u_name']; ?>
 						</h4>

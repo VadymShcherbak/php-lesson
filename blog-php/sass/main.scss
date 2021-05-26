@@ -70,12 +70,13 @@ img {
 
 	h1 {
 		color: #474d50;
+		margin-bottom: 0;
 	}
 }
 
 .post {
 	padding: 10px;
-	background-color: #b1cfe194;
+	background-color: #6cb9e994;
 	border-radius: 10px;
 }
 
@@ -113,7 +114,7 @@ img {
 
 .btn-pos {
 	align-items: center;
-	margin-top: 30px;
+	margin-top: 28px;
 }
 
 .date-comm {
@@ -147,11 +148,9 @@ img {
 
 .post-category {
 	position: relative;
-	margin-top: -46px;
+	margin-top: -24px;
 	text-align: center;
 	background-color: #50a7eed8;
-	max-width: 60px;
-	border-radius: 0 5px 5px 0;
 	color: white;
 	font-size: 19px;
 
@@ -162,6 +161,7 @@ img {
 
 .big-post-cat {
     margin-top: -56px;
+	margin-bottom: 10px;
     max-width: 180px;
 	border-radius: 0 10px 0 10px;
     font-size: 36px;

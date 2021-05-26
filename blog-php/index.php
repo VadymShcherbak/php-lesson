@@ -29,7 +29,7 @@ require 'header.php';
 						</a>
 						<div class="post-category">
 							<p>
-								<?php echo $value['category']; ?>
+								<?php echo $value['name_category']; ?>
 							</p>
 						</div>
 					</div>
@@ -49,7 +49,7 @@ require 'header.php';
 								</p>
 							</div>
 							<div class="icon-com">
-								<i class="fad fa-comments"></i>
+								<a href="post-page.php?id=<?php echo $value['id'] . '#com-link'; ?>"><i class="fad fa-comments"></i></a>
 								<div class="count_com">
 									<?php echo va_count_comments( $value['id'] ); ?>
 								</div>
@@ -64,4 +64,4 @@ require 'header.php';
 	</div>
 </section>
 
-<?php require 'footer.php' ?>
+<?php require 'footer.php'; ?>
