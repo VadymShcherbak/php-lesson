@@ -208,7 +208,7 @@ function va_count_comments( $id ) {
 /**
  * Add category.
  *
- * @return void
+ * @return str
  */
 function va_add_category() {
 	if ( ! isset( $_POST['add_category'] ) ) {
@@ -231,6 +231,7 @@ function va_add_category() {
 
 	if ( $res->execute() ) {
 		va_add_notice( 'success', 'Категория успешно добавлена' );
+		va_header( 'create-category.php' );
 	} else {
 		va_add_notice( 'error', 'Категория не добавлена' );
 	}

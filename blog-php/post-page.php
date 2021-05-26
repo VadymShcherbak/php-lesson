@@ -18,7 +18,7 @@ require 'header.php';
 ?>
 <section class="main post-bg">
 	<div class="container">
-		<div class="blog-head">
+		<div class="blog-head big-p-head">
 			<h1>POST</h1>
 			<a href="index.php" class="btn btn-success">Blog</a>
 		</div>

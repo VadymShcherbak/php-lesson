@@ -151,6 +151,10 @@ img {
   font-size: 36px;
 }
 
+.big-p-head {
+  justify-content: space-between;
+}
+
 .icon-com {
   position: relative;
 }
