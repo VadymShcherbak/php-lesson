@@ -254,3 +254,20 @@ function va_get_category() {
 
 	return $res->fetchAll( PDO::FETCH_ASSOC );
 }
+
+/**
+ * Count category.
+ *
+ * @param  mixed $id Get id categpry.
+ * @return array
+ */
+function va_count_category( $id ) {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT COUNT(*) FROM `posts` WHERE category_id = :category_id' );
+
+	$res->bindParam( ':category_id', $id );
+	$res->execute();
+
+	return $res->fetchColumn();
+}

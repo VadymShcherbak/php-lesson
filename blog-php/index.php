@@ -23,7 +23,9 @@ require 'header.php';
 				<select name="category" class="form-control" aria-label="category">
 				<option value="All">All</option>
 					<?php foreach ( $show_category as $value ) : ?>
-						<option value="<?php echo $value['id']; ?>" <?php echo ( $value['id'] === $_GET['category'] ) ? 'selected' : ''; ?> ><?php echo $value['name_category']; ?></option>
+						<option value="<?php echo $value['id']; ?>" <?php echo ( $value['id'] === $_GET['category'] ) ? 'selected' : ''; ?> >
+							<?php echo $value['name_category']; ?> (<?php echo va_count_category( $value['id'] ); ?>)
+						</option>
 					<?php endforeach; ?>
 				</select>
 			</form>
