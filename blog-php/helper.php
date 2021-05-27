@@ -2,9 +2,9 @@
 session_start();
 
 /**
- * Ar
+ * Ar.
  *
- * @param  mixed $data data.
+ * @param  mixed $data Data.
  */
 function ar( $data ) {
 	echo '<pre>';
@@ -12,10 +12,12 @@ function ar( $data ) {
 	echo '</pre>';
 }
 
+
 /**
- * Esc_html
+ * Esc html.
  *
- * @param  mixed $data data.
+ * @param  mixed $data Data.
+ * @return string
  */
 function esc_html( $data ) {
 	return htmlspecialchars( trim( $data ) );
@@ -24,18 +26,17 @@ function esc_html( $data ) {
 /**
  * Add notice.
  *
- * @param  mixed $type type.
- * @param  mixed $massage massage.
+ * @param  mixed $type Type.
+ * @param  mixed $massage Massage.
  */
 function va_add_notice( $type, $massage ) {
 	$_SESSION['notice'][ $type ][] = $massage;
 }
 
 /**
- * Print notice
+ * Print notice.
  *
- * @param  mixed $type type.
- * @return void
+ * @param  mixed $type Type.
  */
 function va_print_notice( $type ) {
 	$arr_notice = $_SESSION['notice'][ $type ];
@@ -52,9 +53,9 @@ function va_print_notice( $type ) {
 
 		<div class="alert <?php echo $type_class; ?> text-center mt-3" role="alert">
 			<?php
-			foreach ( $arr_notice as $value ) {
+			foreach ( $arr_notice as $value ) :
 				echo $value;
-			}
+			endforeach;
 			?>
 		</div>
 

@@ -5,8 +5,6 @@
  * @package Blog
  */
 
-session_start();
-
 require 'functions.php';
 require 'header.php';
 
@@ -35,10 +33,10 @@ $show_category = va_get_category();
 							<input type="text" class="form-control" name="short_text" value="<?php echo $_POST['short_text']; ?>" placeholder="short description" aria-label="description">
 						</div>
 						<div class="col-lg-12 mb-3">
-							<textarea name="text" class="form-control" placeholder="write a description ..."><?php echo $_POST['text']; ?></textarea>
+							<textarea name="text" class="form-control" placeholder="write a description ..." aria-label="write a description"><?php echo $_POST['text']; ?></textarea>
 						</div>
 						<div class="col-lg-12 mb-3">
-							<input type="file" name="uploaded_file" class="text-color" accept="image/jpeg,image/png">
+							<input type="file" name="uploaded_file" class="text-color" accept="image/jpeg,image/png" aria-label="add image">
 						</div>
 						<div class="input-group col-lg-4">
 							<button type="submit" class="btn btn-primary" name="add_post">Add Post</button>

@@ -133,14 +133,18 @@ img {
   position: relative;
   margin-top: -34px;
   text-align: center;
-  background-color: #17a3b8e8;
-  color: white;
+  background-color: #17a3b8;
   font-size: 19px;
   border-radius: 0 0 10px 10px;
   margin-bottom: 5px;
 }
-.post-category p {
-  margin-bottom: 0;
+.post-category a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+.post-category a:hover {
+  color: #e7e95b;
 }
 
 .big-post-cat {

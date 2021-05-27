@@ -5,11 +5,9 @@
  * @package Blog
  */
 
-session_start();
-
 require 'functions.php';
 
-$get_post      = va_get_post( $_POST['category'] );
+$get_post      = va_get_post( esc_html( $_GET['category'] ) );
 $show_category = va_get_category();
 
 require 'header.php';
@@ -20,12 +18,12 @@ require 'header.php';
 		<?php va_print_notice( 'error' ); ?>
 		<div class="blog-head">
 			<h1 class="mr-3">BLOG</h1>
-			<form action="" method="post" class="d-flex mr-3">
-				<button type="submit" name="by_category" class="btn btn-info mr-1">By category</button>
-				<select name="category" class="form-control">
+			<form action="" method="get" class="d-flex mr-3">
+				<button type="submit" class="btn btn-info mr-1">By category</button>
+				<select name="category" class="form-control" aria-label="category">
 				<option value="All">All</option>
 					<?php foreach ( $show_category as $value ) : ?>
-						<option value="<?php echo $value['id']; ?>" <?php echo ( $value['id'] === $_POST['category'] ) ? 'selected' : ''; ?>><?php echo $value['name_category']; ?></option>
+						<option value="<?php echo $value['id']; ?>" <?php echo ( $value['id'] === $_GET['category'] ) ? 'selected' : ''; ?> ><?php echo $value['name_category']; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</form>
@@ -41,9 +39,9 @@ require 'header.php';
 						</a>
 					</div>
 					<div class="post-category">
-						<p>
+						<a href="?category=<?php echo $value['category_id'] ?>">
 							<?php echo $value['name_category']; ?>
-						</p>
+						</a>
 					</div>
 					<div class="post-inner">
 						<h4>
@@ -61,7 +59,9 @@ require 'header.php';
 								</p>
 							</div>
 							<div class="icon-com">
-								<a href="post-page.php?id=<?php echo $value['id'] . '#com-link'; ?>"><i class="fad fa-comments"></i></a>
+								<a href="post-page.php?id=<?php echo $value['id'] . '#com-link'; ?>">
+									<i class="fad fa-comments"></i>
+								</a>
 								<div class="count_com">
 									<?php echo va_count_comments( $value['id'] ); ?>
 								</div>

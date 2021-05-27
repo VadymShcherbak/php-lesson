@@ -4,7 +4,6 @@
  *
  * @package Blog
  */
-session_start();
 
 require 'functions.php';
 
@@ -23,28 +22,28 @@ require 'header.php';
 			<a href="index.php" class="btn btn-success">Blog</a>
 		</div>
 		<div class="wrapper row row-spacing-col">
-		<?php foreach ( $get_id_post as $value ) : ?>
-			<div class="col-lg-12">
-				<div class="post">
-					<div class="post-img">
-						<img src="<?php echo $value['img_url']; ?>" alt="">
-					</div>
-					<div class="post-category big-post-cat">
-						<p>
-							<?php echo $value['name_category']; ?>
-						</p>
-					</div>
-					<div class="post-inner">
-						<h4>
-							<?php echo $value['title']; ?>
-						</h4>
-						<p>
-							<?php echo $value['text']; ?>
-						</p>
+			<?php foreach ( $get_id_post as $value ) : ?>
+				<div class="col-lg-12">
+					<div class="post">
+						<div class="post-img">
+							<img src="<?php echo $value['img_url']; ?>" alt="post-image">
+						</div>
+						<div class="post-category big-post-cat">
+							<p>
+								<?php echo $value['name_category']; ?>
+							</p>
+						</div>
+						<div class="post-inner">
+							<h4>
+								<?php echo $value['title']; ?>
+							</h4>
+							<p>
+								<?php echo $value['text']; ?>
+							</p>
+						</div>
 					</div>
 				</div>
-			</div>
-		<?php endforeach; ?>
+			<?php endforeach; ?>
 		</div>
 		<div class="show-comm row" id="comments">
 			<?php foreach ( $va_get_comments as $value ) : ?>

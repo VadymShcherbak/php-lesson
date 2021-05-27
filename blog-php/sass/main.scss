@@ -154,14 +154,19 @@ img {
 	position: relative;
 	margin-top: -34px;
 	text-align: center;
-	background-color: #17a3b8e8;
-	color: white;
+	background-color: #17a3b8;
 	font-size: 19px;
 	border-radius: 0 0 10px 10px;
 	margin-bottom: 5px;
 
-	p {
-		margin-bottom: 0;
+	a {
+		color: #fff;
+		text-decoration: none;
+		transition: color .4s ease;
+
+		&:hover {
+			color: rgb(231, 233, 91);
+		}
 	}
 }
 
