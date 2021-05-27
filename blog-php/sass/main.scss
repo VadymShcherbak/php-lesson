@@ -200,3 +200,38 @@ img {
 	color: #fff;
 	font-size: 12px;
 }
+
+// ------------------------------------------
+// Admin page.
+// ------------------------------------------
+
+.admin-page {
+	background: linear-gradient(176deg, #bedf9aa8, #7fafabcc);
+	padding-top: 40px;
+	padding-bottom: 30px;
+}
+
+.admin-head {
+	display: flex;
+	align-items: center;
+}
+
+.adm-img {
+	margin-bottom: 0;
+}
+
+.adm-post {
+	background-color: #eef3dd;
+}
+
+// ------------------------------------------
+// Sign in
+// ------------------------------------------
+
+.sign {
+	display: flex;
+	justify-content: center;
+	min-height: 100vh;
+	padding-top: 50px;
+	background-color: rgba(250, 235, 215, 0.74);
+}

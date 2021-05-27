@@ -271,3 +271,58 @@ function va_count_category( $id ) {
 
 	return $res->fetchColumn();
 }
+
+/**
+ * Verify user.
+ *
+ * @return void
+ */
+function va_verify_user() {
+	if ( ! isset( $_POST['sign_in'] ) ) {
+		return;
+	}
+
+	$login    = esc_html( $_POST['login'] );
+	$password = esc_html( $_POST['password'] );
+
+	if ( empty( $login ) ) {
+		va_add_notice( 'error', 'Введите Логин! ' );
+	}
+	if ( empty( $password ) ) {
+		va_add_notice( 'error', 'Введите Пароль! ' );
+	}
+
+	if ( $_SESSION['notice']['error'] ) {
+		return;
+	}
+
+	$user_d = va_get_users( $login );
+
+	if ( $login === $user_d['name'] && password_verify( $password, $user_d['password'] ) ) {
+		$_SESSION['login'] = $login;
+		va_header( 'admin.php' );
+	} else {
+		va_add_notice( 'error', 'Не верний логин или пароль' );
+
+		va_header( 'sign-in.php' );
+	}
+
+}
+
+/**
+ * Get users.
+ *
+ * @param  mixed $login Login.
+ * @return array
+ */
+function va_get_users( $login ) {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `users` WHERE name = :login' );
+
+	$res->bindParam( ':login', $login );
+	$res->execute();
+
+	return $res->fetch( PDO::FETCH_ASSOC );
+}
+

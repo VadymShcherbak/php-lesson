@@ -29,7 +29,8 @@ require 'header.php';
 					<?php endforeach; ?>
 				</select>
 			</form>
-			<a href="page-create.php" class="btn btn-success">New Post</a>
+			<a href="page-create.php" class="btn btn-success mr-3">New Post</a>
+			<a href="sign-in.php" class="btn btn-success">Admin page</a>
 		</div>
 		<div class="wrapper row row-spacing-col">
 		<?php foreach ( $get_post as $value ) : ?>
