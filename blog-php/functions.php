@@ -118,6 +118,30 @@ function va_get_post( $category = '' ) {
 }
 
 /**
+ * Delete post on admin page.
+ */
+function va_del_post() {
+	if ( ! isset( $_GET['delete'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	$del = esc_html( $_GET['delete'] );
+
+	$res = $pdo->prepare( 'DELETE FROM `posts` WHERE id = :del' );
+	$res->bindParam( ':del', $del );
+
+	if ( $res->execute() ) {
+		va_add_notice( 'success', 'Задание удалено' );
+	} else {
+		va_add_notice( 'error', 'Задание не удалено' );
+	}
+
+	va_header( 'admin.php' );
+}
+
+/**
  * Get post by id.
  *
  *  @return array

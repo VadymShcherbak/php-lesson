@@ -8,11 +8,14 @@
 require 'functions.php';
 
 $get_post = va_get_post( esc_html( $_GET['category'] ) );
+va_del_post();
 
 require 'header.php';
 ?>
 <section class="admin-page">
 	<div class="container">
+		<?php va_print_notice( 'error' ); ?>
+		<?php va_print_notice( 'success' ); ?>
 		<div class="admin-head">
 			<h1 class="mr-3">Admin page</h1>
 			<a href="index.php" class="btn btn-primary mr-3">Home</a>
@@ -51,7 +54,7 @@ require 'header.php';
 								</div>
 								<div class="col-lg-3 d-flex align-items-center">
 									<div class="btn-group">
-										<a href="" class="btn btn-danger">Remove</a>
+										<a href="?delete=<?php echo $value['id']; ?>" class="btn btn-danger">Remove</a>
 										<a href="" class="btn btn-warning">Edit</a>
 										<a href="post-page.php?id=<?php echo $value['id']; ?>" class="btn btn-success">View</a>
 									</div>
