@@ -21,8 +21,6 @@ function va_get_img() {
 		return;
 	}
 
-	// $dest_path = '';
-
 	if ( isset( $_FILES['uploaded_file'] ) && UPLOAD_ERR_OK === $_FILES['uploaded_file']['error'] ) {
 		$file_tmp_path           = $_FILES['uploaded_file']['tmp_name'];
 		$file_name               = $_FILES['uploaded_file']['name'];
@@ -46,7 +44,7 @@ function va_get_img() {
 /**
  * Add post.
  *
- * @return array
+ * @return string
  */
 function va_add_post() {
 	if ( ! isset( $_POST['add_post'] ) ) {
@@ -127,15 +125,60 @@ function va_del_post() {
 
 	global $pdo;
 
-	$del = esc_html( $_GET['delete'] );
-
 	$res = $pdo->prepare( 'DELETE FROM `posts` WHERE id = :del' );
-	$res->bindParam( ':del', $del );
+	$res->bindParam( ':del', esc_html( $_GET['delete'] ) );
 
 	if ( $res->execute() ) {
-		va_add_notice( 'success', 'Задание удалено' );
+		va_add_notice( 'success', 'Пост удалён' );
 	} else {
-		va_add_notice( 'error', 'Задание не удалено' );
+		va_add_notice( 'error', 'Пост не удалён' );
+	}
+
+	va_header( 'admin.php' );
+}
+
+/**
+ * Edit post on admin page.
+ *
+ * @return array
+ */
+function va_edit_post() {
+	if ( ! isset( $_GET['edit'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `posts` WHERE id = :id' );
+
+	$res->bindParam( ':id', esc_html( $_GET['edit'] ) );
+	$res->execute();
+
+	return $res->fetchAll( PDO::FETCH_ASSOC );
+}
+
+/**
+ * Save edit post on admin page.
+ */
+function va_save_edit_post() {
+	if ( ! isset( $_POST['save_edit_post'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	$res = $pdo->prepare( 'UPDATE `posts` SET title = :edit_title, category_id = :edit_category, short_text = :edit_short, text = :edit_text WHERE id = :id' );
+
+	$res->bindParam( ':id', esc_html( $_POST['edit_id'] ) );
+	$res->bindParam( ':edit_title', esc_html( $_POST['edit_title'] ) );
+	$res->bindParam( ':edit_category', esc_html( $_POST['edit_category'] ) );
+	$res->bindParam( ':edit_short', esc_html( $_POST['edit_short_text'] ) );
+	$res->bindParam( ':edit_text', esc_html( $_POST['edit_text'] ) );
+
+	if ( $res->execute() ) {
+		va_add_notice( 'success', 'Задание успешно изменено' );
+	} else {
+		va_add_notice( 'error', 'Задание не изменено' );
 	}
 
 	va_header( 'admin.php' );
@@ -164,7 +207,7 @@ function va_get_post_by_id() {
 /**
  * Add post comments.
  *
- * @return array
+ * @return string
  */
 function va_add_comments() {
 	if ( ! isset( $_POST['add_comment'] ) ) {
@@ -240,7 +283,7 @@ function va_count_comments( $id ) {
  */
 function va_add_category() {
 	if ( ! isset( $_POST['add_category'] ) ) {
-		return;
+		return '';
 	}
 
 	global $pdo;
@@ -299,11 +342,11 @@ function va_count_category( $id ) {
 /**
  * Verify user.
  *
- * @return void
+ * @return string
  */
 function va_verify_user() {
 	if ( ! isset( $_POST['sign_in'] ) ) {
-		return;
+		return '';
 	}
 
 	$login    = esc_html( $_POST['login'] );

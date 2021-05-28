@@ -18,6 +18,7 @@ require 'header.php';
 		<?php va_print_notice( 'success' ); ?>
 			<div class="wrapper row justify-content-center">
 				<div class="col-lg-10">
+					<h1 class="create-head">Create new category</h1>
 					<form action="" method="post" class="form-style mb-3">
 						<div class="input-group row">
 							<div class="col-lg-12 mb-3">

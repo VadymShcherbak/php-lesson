@@ -66,22 +66,22 @@ require 'header.php';
 			<div class="col-lg-12">
 				<?php va_print_notice( 'error' ); ?>
 				<?php va_print_notice( 'success' ); ?>
-					<form action="" method="post">
-						<div class="input-group row">
-							<div class="col-lg-12 mb-3">
-								<label for="comm-text">Comment</label>
-								<textarea name="comm_text" id="comm-text" class="form-control" rows="7"></textarea>
-							</div>
-							<div class="col-lg-4 mb-3">
-								<label for="user-name">Name</label>
-								<input type="text" class="form-control col-lg-12" name="u_name" aria-label="User name" id="user-name">
-								<input type="hidden" name="post-id" value="<?php echo esc_html( $_GET['id'] ); ?>">
-							</div>
-							<div class="col-lg-4 btn-pos">
-								<button type="submit" name="add_comment" class="btn btn-success">Post comment</button>
-							</div>
+				<form action="" method="post">
+					<div class="input-group row">
+						<div class="col-lg-12 mb-3">
+							<label for="comm-text">Comment</label>
+							<textarea name="comm_text" id="comm-text" class="form-control" rows="7"></textarea>
 						</div>
-					</form>
+						<div class="col-lg-4 mb-3">
+							<label for="user-name">Name</label>
+							<input type="text" class="form-control col-lg-12" name="u_name" aria-label="User name" id="user-name">
+							<input type="hidden" name="post-id" value="<?php echo esc_html( $_GET['id'] ); ?>">
+						</div>
+						<div class="col-lg-4 btn-pos">
+							<button type="submit" name="add_comment" class="btn btn-success">Post comment</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
