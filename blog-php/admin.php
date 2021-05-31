@@ -7,12 +7,17 @@
 
 require 'functions.php';
 
+if ( ! $_SESSION['login'] ) {
+	va_header( 'sign-in.php' );
+}
+
 $get_post      = va_get_post( esc_html( $_GET['category'] ) );
 $show_category = va_get_category();
 $edit_post     = va_edit_post();
 
 va_save_edit_post();
 va_del_post();
+va_logout();
 
 require 'header.php';
 ?>
@@ -24,7 +29,8 @@ require 'header.php';
 			<h1 class="mr-3">Admin page</h1>
 			<a href="index.php" class="btn btn-primary mr-3">Home</a>
 			<a href="page-create.php" class="btn btn-primary mr-3">New post</a>
-			<a href="create-category.php" class="btn btn-primary">Create new category</a>
+			<a href="create-category.php" class="btn btn-primary mr-3">Create new category</a>
+			<a href="?action=logout" class="btn btn-warning">Logout</a>
 		</div>
 		<div class="wrapper-admin">
 			<div class="row">
@@ -34,7 +40,7 @@ require 'header.php';
 							<div class="row">
 								<div class="col-lg-4">
 									<div class="post-img adm-img">
-										<img src="<?php echo $value['img_url']; ?>" alt="">
+										<img src="<?php echo $value['img_url']; ?>" alt="img">
 										<div class="post-category mb-0">
 											<?php echo $value['name_category']; ?>
 										</div>
@@ -83,7 +89,7 @@ require 'header.php';
 					<div class="col-lg-12 mb-3 d-flex">
 							<select name="edit_category" class="form-control">
 								<?php foreach ( $show_category as $value ) : ?>
-									<option value="<?php echo $value['id']; ?>"><?php echo $value['name_category']; ?></option>
+									<option value="<?php echo $value['id']; ?>"<?php echo $value['id'] === $edit_post[0]['category_id'] ? 'selected' : ''; ?>><?php echo $value['name_category']; ?></option>
 								<?php endforeach; ?>
 							</select>
 					</div>

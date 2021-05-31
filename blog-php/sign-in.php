@@ -21,7 +21,7 @@ require 'header.php';
 				<div class="row input-group">
 					<div class="col-lg-4">
 						<label for="login">Login</label>
-						<input type="text" name="login" class="form-control" aria-label="user name">
+						<input type="text" name="login" class="form-control" aria-label="user name" value="<?php echo $_POST['login'] ?>">
 					</div>
 					<div class="col-lg-4">
 						<label for="user_password">Password</label>

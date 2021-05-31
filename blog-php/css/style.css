@@ -211,9 +211,11 @@ img {
 .admin-head {
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
 }
 .admin-head h1 {
   color: #fff;
+  margin-bottom: 0;
 }
 
 .admin-form {

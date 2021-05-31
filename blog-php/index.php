@@ -29,7 +29,7 @@ require 'header.php';
 					<?php endforeach; ?>
 				</select>
 			</form>
-			<a href="sign-in.php" class="btn btn-success">Admin page</a>
+			<a href="admin.php" class="btn btn-success">Admin page</a>
 		</div>
 		<div class="wrapper row row-spacing-col">
 		<?php foreach ( $get_post as $value ) : ?>
@@ -41,7 +41,7 @@ require 'header.php';
 						</a>
 					</div>
 					<div class="post-category">
-						<a href="?category=<?php echo $value['category_id'] ?>">
+						<a href="?category=<?php echo $value['category_id']; ?>">
 							<?php echo $value['name_category']; ?>
 						</a>
 					</div>

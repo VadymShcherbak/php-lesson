@@ -21,6 +21,8 @@ function va_get_img() {
 		return '';
 	}
 
+	$dest_path = '';
+
 	if ( isset( $_FILES['uploaded_file'] ) && UPLOAD_ERR_OK === $_FILES['uploaded_file']['error'] ) {
 		$file_tmp_path           = $_FILES['uploaded_file']['tmp_name'];
 		$file_name               = $_FILES['uploaded_file']['name'];
@@ -34,9 +36,8 @@ function va_get_img() {
 		} else {
 			va_add_notice( 'error', 'Не верный формат картинки' );
 		}
-	} else {
-		va_add_notice( 'error', 'Загрузите картинку! <br>' );
 	}
+
 	return $dest_path;
 }
 
@@ -51,6 +52,8 @@ function va_add_post() {
 
 	global $pdo;
 
+	$img = va_get_img();
+
 	if ( empty( $_POST['title'] ) ) {
 		va_add_notice( 'error', 'Напишите название поста! <br>' );
 	}
@@ -63,6 +66,9 @@ function va_add_post() {
 	if ( empty( $_POST['text'] ) ) {
 		va_add_notice( 'error', 'Напишите описание поста! <br>' );
 	}
+	if ( empty( $img ) ) {
+		va_add_notice( 'error', 'Загрузите картинку! <br>' );
+	}
 
 	if ( $_SESSION['notice']['error'] ) {
 		return;
@@ -74,7 +80,7 @@ function va_add_post() {
 	$add_post->bindParam( ':category', esc_html( $_POST['category'] ) );
 	$add_post->bindParam( ':short_text', esc_html( $_POST['short_text'] ) );
 	$add_post->bindParam( ':text', esc_html( $_POST['text'] ) );
-	$add_post->bindParam( ':img_url', va_get_img() );
+	$add_post->bindParam( ':img_url', $img );
 
 	if ( $add_post->execute() ) {
 		va_add_notice( 'success', 'Пост успешно добавлен' );
@@ -89,7 +95,7 @@ va_add_post();
 /**
  * Get post.
  *
- * @param  mixed $category category.
+ * @param  mixed $category Category.
  * @return array
  */
 function va_get_post( $category = '' ) {
@@ -214,9 +220,11 @@ function va_add_comments() {
 
 	if ( empty( $_POST['comm_text'] ) ) {
 		va_add_notice( 'error', 'Введите коментарий! ' );
+		va_header( 'post-page.php?id=' . $_POST['post-id'] . '#comments' );
 	}
 	if ( empty( $_POST['u_name'] ) ) {
 		va_add_notice( 'error', 'Введите имя!' );
+		va_header( 'post-page.php?id=' . $_POST['post-id'] . '#comments' );
 	}
 
 	if ( $_SESSION['notice']['error'] ) {
@@ -240,7 +248,7 @@ function va_add_comments() {
 /**
  * Get comments.
  *
- * @param  mixed $id id from posts to comments.
+ * @param  mixed $id Id from posts to comments.
  * @return array
  */
 function va_get_comments( $id ) {
@@ -258,7 +266,7 @@ function va_get_comments( $id ) {
 /**
  * Count comments
  *
- * @param  mixed $id get id from url.
+ * @param  mixed $id Get id from url.
  * @return array
  */
 function va_count_comments( $id ) {
@@ -277,7 +285,7 @@ function va_count_comments( $id ) {
  */
 function va_add_category() {
 	if ( ! isset( $_POST['add_category'] ) ) {
-		return '';
+		return;
 	}
 
 	global $pdo;
@@ -361,6 +369,21 @@ function va_delete_category() {
  * @return array
  */
 function va_edit_category() {
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `category_t`' );
+
+	$res->execute();
+
+	return $res->fetchAll( PDO::FETCH_ASSOC );
+}
+
+/**
+ * View edit category.
+ *
+ * @return array
+ */
+function va_view_edit_category() {
 	if ( ! isset( $_GET['edit'] ) ) {
 		return array();
 	}
@@ -372,7 +395,36 @@ function va_edit_category() {
 	$res->bindParam( ':id', esc_html( $_GET['edit'] ) );
 	$res->execute();
 
-	return $res->fetchAll( PDO::FETCH_ASSOC );
+	return $res->fetch( PDO::FETCH_ASSOC );
+}
+
+/**
+ * Save edit category.
+ */
+function va_save_edit_category() {
+	if ( ! isset( $_POST['save_edit_category'] ) ) {
+		return;
+	}
+	global $pdo;
+
+	$res = $pdo->prepare( 'UPDATE `category_t` SET name_category = :main_category WHERE id = :id' );
+
+	$res->bindParam( ':id', esc_html( $_POST['edit_category_id'] ) );
+	$res->bindParam( ':main_category', esc_html( $_POST['edit_main_category'] ) );
+
+	if ( empty( $_POST['edit_main_category'] ) ) {
+		va_add_notice( 'error', 'Введите названия категории' );
+		va_header( 'create-category.php' );
+		return;
+	}
+
+	if ( $res->execute() ) {
+		va_add_notice( 'success', 'Категория изменена' );
+	} else {
+		va_add_notice( 'error', 'Категория не изменена' );
+	}
+
+	va_header( 'create-category.php' );
 }
 
 /**
@@ -380,7 +432,7 @@ function va_edit_category() {
  */
 function va_verify_user() {
 	if ( ! isset( $_POST['sign_in'] ) ) {
-		return '';
+		return;
 	}
 
 	$login    = esc_html( $_POST['login'] );
@@ -404,8 +456,6 @@ function va_verify_user() {
 		va_header( 'admin.php' );
 	} else {
 		va_add_notice( 'error', 'Не верний логин или пароль' );
-
-		va_header( 'sign-in.php' );
 	}
 
 }
@@ -425,5 +475,17 @@ function va_get_users( $login ) {
 	$res->execute();
 
 	return $res->fetch( PDO::FETCH_ASSOC );
+}
+
+/**
+ * Logout.
+ */
+function va_logout() {
+	if ( ! isset( $_GET['action'] ) ) {
+		return;
+	}
+
+	unset( $_SESSION['login'] );
+	va_header( 'index.php' );
 }
 
