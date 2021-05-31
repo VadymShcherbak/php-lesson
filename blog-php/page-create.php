@@ -25,7 +25,9 @@ $show_category = va_get_category();
 						<div class="col-lg-12 mb-3 d-flex">
 							<select name="category" class="form-control">
 								<?php foreach ( $show_category as $value ) : ?>
-									<option value="<?php echo $value['id']; ?>"><?php echo $value['name_category']; ?></option>
+									<option value="<?php echo $value['id']; ?>">
+										<?php echo $value['name_category']; ?>
+									</option>
 								<?php endforeach; ?>
 							</select>
 						</div>

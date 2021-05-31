@@ -18,7 +18,7 @@ $pdo = new PDO( 'mysql:host=192.168.1.133;dbname=blog;', 'vadym', 'vadym' );
  */
 function va_get_img() {
 	if ( ! isset( $_POST['add_post'] ) ) {
-		return;
+		return '';
 	}
 
 	if ( isset( $_FILES['uploaded_file'] ) && UPLOAD_ERR_OK === $_FILES['uploaded_file']['error'] ) {
@@ -43,8 +43,6 @@ function va_get_img() {
 
 /**
  * Add post.
- *
- * @return string
  */
 function va_add_post() {
 	if ( ! isset( $_POST['add_post'] ) ) {
@@ -144,7 +142,7 @@ function va_del_post() {
  */
 function va_edit_post() {
 	if ( ! isset( $_GET['edit'] ) ) {
-		return;
+		return array();
 	}
 
 	global $pdo;
@@ -176,9 +174,9 @@ function va_save_edit_post() {
 	$res->bindParam( ':edit_text', esc_html( $_POST['edit_text'] ) );
 
 	if ( $res->execute() ) {
-		va_add_notice( 'success', 'Задание успешно изменено' );
+		va_add_notice( 'success', 'Пост успешно изменён' );
 	} else {
-		va_add_notice( 'error', 'Задание не изменено' );
+		va_add_notice( 'error', 'Пост не изменён' );
 	}
 
 	va_header( 'admin.php' );
@@ -191,7 +189,7 @@ function va_save_edit_post() {
  */
 function va_get_post_by_id() {
 	if ( ! isset( $_GET['id'] ) ) {
-		return '';
+		return array();
 	}
 
 	global $pdo;
@@ -206,8 +204,6 @@ function va_get_post_by_id() {
 
 /**
  * Add post comments.
- *
- * @return string
  */
 function va_add_comments() {
 	if ( ! isset( $_POST['add_comment'] ) ) {
@@ -278,8 +274,6 @@ function va_count_comments( $id ) {
 
 /**
  * Add category.
- *
- * @return string
  */
 function va_add_category() {
 	if ( ! isset( $_POST['add_category'] ) ) {
@@ -340,9 +334,49 @@ function va_count_category( $id ) {
 }
 
 /**
- * Verify user.
+ * Delete category.
+ */
+function va_delete_category() {
+	if ( ! isset( $_GET['delete'] ) ) {
+		return;
+	}
+
+	global $pdo;
+
+	$res = $pdo->prepare( 'DELETE FROM `category_t` WHERE id = :del' );
+	$res->bindParam( ':del', esc_html( $_GET['delete'] ) );
+
+	if ( $res->execute() ) {
+		va_add_notice( 'success', 'Категория удалена' );
+	} else {
+		va_add_notice( 'error', 'Категория не удалена' );
+	}
+
+	va_header( 'create-category.php' );
+}
+
+/**
+ * Edit category.
  *
- * @return string
+ * @return array
+ */
+function va_edit_category() {
+	if ( ! isset( $_GET['edit'] ) ) {
+		return array();
+	}
+
+	global $pdo;
+
+	$res = $pdo->prepare( 'SELECT * FROM `category_t` WHERE id = :id' );
+
+	$res->bindParam( ':id', esc_html( $_GET['edit'] ) );
+	$res->execute();
+
+	return $res->fetchAll( PDO::FETCH_ASSOC );
+}
+
+/**
+ * Verify user.
  */
 function va_verify_user() {
 	if ( ! isset( $_POST['sign_in'] ) ) {

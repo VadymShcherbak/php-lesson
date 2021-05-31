@@ -159,6 +159,19 @@ img {
   color: #e7e95b;
 }
 
+.category-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #d9e9d85c;
+  padding: 10px;
+  border-radius: 5px;
+}
+.category-wrapper h4 {
+  color: #fff;
+  margin-bottom: 0;
+}
+
 .big-post-cat {
   margin-top: -56px;
   margin-bottom: 10px;
